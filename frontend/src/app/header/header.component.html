@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div class="row center">
+      <h1>
+        <mat-icon class="main-icon" color="accent" inline>data_usage</mat-icon>
+        {{'{Data}'}}<sub>exp</sub>
+      </h1>
+    </div>
+    <span class="header-spacer"></span>
+    <form class="header-form">
+      <mat-form-field class="header-full-width" floatLabel="never" [style.fontSize.px]="14">
+        <mat-label>Search</mat-label>
+        <input matInput type="text">
+        <button mat-button matSuffix mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+<!--    <span class="header-spacer"></span>-->
+    <mat-icon class="header-icon" aria-hidden="false" aria-label="Settings icon">settings</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>

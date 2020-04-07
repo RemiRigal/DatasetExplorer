@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "assets/themes/main";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.center {
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}

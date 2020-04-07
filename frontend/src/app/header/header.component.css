@@ -1,0 +1,22 @@
+.header-icon {
+  padding: 0 14px;
+}
+
+.header-spacer {
+  flex: 1 1 auto;
+}
+
+.header-form {
+  min-width: 150px;
+  max-width: 300px;
+  width: 100%;
+}
+
+.header-full-width {
+  width: 100%;
+}
+
+.main-icon {
+  margin-right: 6px;
+  vertical-align: middle;
+}

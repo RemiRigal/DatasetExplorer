@@ -1,0 +1,23 @@
+@import "../styles";
+
+
+.app-container {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.sidebar-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.mat-sidenav-primary {
+  //background: mat-color($primary);
+}

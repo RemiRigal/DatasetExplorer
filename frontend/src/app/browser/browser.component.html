@@ -1,0 +1,25 @@
+<div class="datafile-container">
+
+  <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
+
+    <div *ngFor="let file of dataFiles; let i = index; let last = last" fxFlex="1 1 calc(25%)">
+      <mat-card #fileTile>
+        <mat-card-header>
+          <mat-icon mat-card-avatar color="primary">audiotrack</mat-icon>
+          <mat-card-title class="ellipsis">{{file.name}}</mat-card-title>
+          <mat-card-subtitle>Type: {{file.type}} ({{file.ext}}) - {{(file.size / (1024 * 1024)).toFixed(2)}} MB</mat-card-subtitle>
+        </mat-card-header>
+
+        <div id="waveform_{{file.name.substr(0, 11)}}" class="waveform-container" *ngIf="file.type == 'audio'"></div>
+
+        <mat-card-actions>
+          <button mat-button (click)="selectFile(file)">Select</button>
+          <button mat-button (click)="playPause(i)" *ngIf="file.type == 'audio'" style="align-items: end">Play/Pause</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </div>
+
+</div>
+
