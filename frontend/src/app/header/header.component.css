@@ -2,10 +2,6 @@
   padding: 0 14px;
 }
 
-.header-spacer {
-  flex: 1 1 auto;
-}
-
 .header-form {
   min-width: 150px;
   max-width: 300px;
@@ -19,4 +15,9 @@
 .main-icon {
   margin-right: 6px;
   vertical-align: middle;
+}
+
+.index-button {
+  color: inherit;
+  text-decoration: inherit;
 }

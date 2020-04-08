@@ -1,28 +1,24 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {RestService} from '../api/rest.service';
 import {DataFile} from '../classes/DataFile';
-
-declare var WaveSurfer: any;
 
 @Component({
   selector: 'app-browser',
   templateUrl: './browser.component.html',
   styleUrls: ['./browser.component.css']
 })
-export class BrowserComponent implements OnInit, AfterViewInit {
+export class BrowserComponent implements OnInit {
 
   constructor(private rs: RestService) {}
 
   dataFiles: DataFile[] = [];
-  renderers: any[] = [];
-
-  @ViewChildren('fileTile') cards: QueryList<any>;
+  heightFactor = parseInt(localStorage.getItem('browserHeightFactor'), 10) || 120;
+  zoomFactor = parseInt(localStorage.getItem('browserZoomFactor'), 10) || 25;
 
   ngOnInit() {
     this.rs.getDataFiles().subscribe(
       (response) => {
         this.dataFiles = response;
-        this.renderers = [response.length];
       },
       (error) => {
         console.log('No Data Found' + error);
@@ -30,42 +26,29 @@ export class BrowserComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {
-    this.cards.changes.subscribe(t => {
-      this.loadFiles();
-    });
-  }
-
-  loadFiles() {
-    this.dataFiles.forEach((value, index) => {
-      if (value.type === 'audio') {
-        this.loadAudioFile(index);
+  onZoomFactorChanged() {
+    this.dataFiles.forEach(file => {
+      if (file.previewRenderer && DataFile.isAudio(file)) {
+        file.previewRenderer._onResize();
       }
     });
+    localStorage.setItem('browserZoomFactor', this.zoomFactor + '');
   }
 
-  loadAudioFile(index) {
-    const filename = this.dataFiles[index].name;
-    this.renderers[index] = WaveSurfer.create({
-      container: '#waveform_' + filename.substr(0, 11),
-      waveColor: '#404040',
-      height: 120,
-      responsive: true,
-      hideScrollBar: true,
-      progressColor: 'hsl(210, 79%, 46%)',
-      cursorColor: '#707070',
-      normalize: true,
-      barWidth: 2,
-      barMinHeight: 1
+  onHeightFactorChanged() {
+    this.dataFiles.forEach(file => {
+      if (DataFile.isImage(file)) {
+        console.log(file.previewRenderer);
+      }
+      if (file.previewRenderer) {
+        if (DataFile.isAudio(file)) {
+          file.previewRenderer.setHeight(this.heightFactor);
+        } else if (DataFile.isImage(file)) {
+          file.previewRenderer.style.height = this.heightFactor + 'px';
+          file.previewRenderer.firstChild.style.height = (this.heightFactor - 4) + 'px';
+        }
+      }
     });
-    this.renderers[index].load('http://127.0.0.1:5000/static/' + filename);
-  }
-
-  playPause(index) {
-    this.renderers[index].playPause();
-  }
-
-  selectFile(file: DataFile) {
-    document.location.href = `/processor?file=${file.name}`;
+    localStorage.setItem('browserHeightFactor', this.heightFactor + '');
   }
 }

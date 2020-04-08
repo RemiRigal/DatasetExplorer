@@ -27,6 +27,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {ProcessorComponent} from './processor/processor.component';
 import {FormsModule} from '@angular/forms';
+import {MatSliderModule} from '@angular/material/slider';
+import {DeferLoadDirective} from './directives/defer-load.directive';
+import { DatafileCardComponent } from './datafile-card/datafile-card.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import {FormsModule} from '@angular/forms';
     HeaderComponent,
     SidebarComponent,
     BrowserComponent,
-    ProcessorComponent
+    ProcessorComponent,
+    DeferLoadDirective,
+    DatafileCardComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +61,8 @@ import {FormsModule} from '@angular/forms';
     FlexLayoutModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    MatSliderModule
   ],
   providers: [
     RestService,

@@ -27,7 +27,7 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.rs.getDataFile(this.filename).subscribe(
       (response) => {
-        this.dataFile = response;
+        this.dataFile = response[0];
       },
       (error) => {
         console.log('File Not Found' + error);

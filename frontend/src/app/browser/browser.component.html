@@ -2,24 +2,22 @@
 
   <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
 
-    <div *ngFor="let file of dataFiles; let i = index; let last = last" fxFlex="1 1 calc(25%)">
-      <mat-card #fileTile>
-        <mat-card-header>
-          <mat-icon mat-card-avatar color="primary">audiotrack</mat-icon>
-          <mat-card-title class="ellipsis">{{file.name}}</mat-card-title>
-          <mat-card-subtitle>Type: {{file.type}} ({{file.ext}}) - {{(file.size / (1024 * 1024)).toFixed(2)}} MB</mat-card-subtitle>
-        </mat-card-header>
-
-        <div id="waveform_{{file.name.substr(0, 11)}}" class="waveform-container" *ngIf="file.type == 'audio'"></div>
-
-        <mat-card-actions>
-          <button mat-button (click)="selectFile(file)">Select</button>
-          <button mat-button (click)="playPause(i)" *ngIf="file.type == 'audio'" style="align-items: end">Play/Pause</button>
-        </mat-card-actions>
-      </mat-card>
+    <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{zoomFactor}}%)">
+      <app-datafile-card [file]="file" [heightFactor]="heightFactor"></app-datafile-card>
     </div>
 
   </div>
 
+</div>
+
+<div class="row browser-footer">
+  <span class="spacer"></span>
+  <mat-icon class="footer-slider-icon" inline>view_day</mat-icon>
+  <mat-slider class="mat-slider" min="120" max="280" step="40" [(ngModel)]="heightFactor" (change)="onHeightFactorChanged()"></mat-slider>
+  <mat-divider class="divider" [vertical]="true" style="margin: 0 8px 0 6px;"></mat-divider>
+  <mat-icon class="footer-slider-icon" inline>zoom_in</mat-icon>
+  <mat-slider class="mat-slider" min="10" max="55" step="15" [(ngModel)]="zoomFactor" (change)="onZoomFactorChanged()"></mat-slider>
+  <mat-divider class="divider" [vertical]="true" style="margin: 0 8px 0 6px;"></mat-divider>
+  <div>{{dataFiles.length}} Files</div>
 </div>
 
