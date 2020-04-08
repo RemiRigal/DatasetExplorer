@@ -5,6 +5,7 @@ import librosa
 from flask import Flask, request, send_file
 from flask_restful import Resource, Api
 from flask_cors import CORS
+from dataset_explorer.filetypes import FileType
 
 
 app = Flask(__name__, static_url_path="")
@@ -25,19 +26,17 @@ class StaticFile(Resource):
 class DataFiles(Resource):
 
     def get(self, filename=None):
-        if filename is not None:
-            return {
-                "name": filename,
-                "size": os.path.getsize(os.path.join(root, filename)),
-                "ext": filename.split(".")[-1],
-                "type": "audio"
-            } if os.path.exists(os.path.join(root, filename)) else {}
+        fileList = []
+        if filename is not None and os.path.exists(os.path.join(root, filename)):
+            fileList = [os.path.join(root, filename)]
+        elif filename is None:
+            fileList = os.listdir(root)
         return [{
             "name": filename,
             "size": os.path.getsize(os.path.join(root, filename)),
             "ext": filename.split(".")[-1],
-            "type": "audio"
-        } for filename in os.listdir(root)]
+            "type": FileType.getFileType(filename).value
+        } for filename in sorted(fileList)]
 
 
 class AudioDataFile(Resource):
