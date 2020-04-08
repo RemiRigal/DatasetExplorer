@@ -43,7 +43,8 @@ export class DatafileCardComponent {
   }
 
   openImageDialog() {
-    const dialogRef = this.dialog.open(DatafilePreviewImageDialogComponent, {
+    this.dialog.open(DatafilePreviewImageDialogComponent, {
+      maxHeight: '90vh',
       data: this.file
     });
   }
