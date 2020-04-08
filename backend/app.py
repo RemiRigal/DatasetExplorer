@@ -28,15 +28,15 @@ class DataFiles(Resource):
     def get(self, filename=None):
         fileList = []
         if filename is not None and os.path.exists(os.path.join(root, filename)):
-            fileList = [os.path.join(root, filename)]
+            fileList = [filename]
         elif filename is None:
             fileList = os.listdir(root)
         return [{
-            "name": filename,
-            "size": os.path.getsize(os.path.join(root, filename)),
-            "ext": filename.split(".")[-1],
-            "type": FileType.getFileType(filename).value
-        } for filename in sorted(fileList)]
+            "name": name,
+            "size": os.path.getsize(os.path.join(root, name)),
+            "ext": name.split(".")[-1],
+            "type": FileType.getFileType(name).value
+        } for name in sorted(fileList)]
 
 
 class AudioDataFile(Resource):

@@ -29,7 +29,7 @@ import {ProcessorComponent} from './processor/processor.component';
 import {FormsModule} from '@angular/forms';
 import {MatSliderModule} from '@angular/material/slider';
 import {DeferLoadDirective} from './directives/defer-load.directive';
-import { DatafileCardComponent } from './datafile-card/datafile-card.component';
+import {DatafileCardComponent, DatafilePreviewImageDialogComponent} from './datafile-card/datafile-card.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,8 @@ import { DatafileCardComponent } from './datafile-card/datafile-card.component';
     BrowserComponent,
     ProcessorComponent,
     DeferLoadDirective,
-    DatafileCardComponent
+    DatafileCardComponent,
+    DatafilePreviewImageDialogComponent
   ],
   imports: [
     BrowserModule,

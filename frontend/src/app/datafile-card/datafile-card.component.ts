@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {DataFile} from '../classes/DataFile';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {Data} from '@angular/router';
 
 declare var WaveSurfer: any;
 
@@ -13,14 +15,13 @@ export class DatafileCardComponent {
   @Input() file: DataFile;
   @Input() heightFactor: number;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   loadPreview() {
     this.file.loadPreview = true;
     if (this.isAudio()) {
       this.loadAudioPreview();
     } else if (this.isImage()) {
-      console.log('Hello');
       this.file.previewRenderer = document.querySelector('#image_' + this.file.name.split('.')[0]);
     }
   }
@@ -39,6 +40,12 @@ export class DatafileCardComponent {
       barMinHeight: 1
     });
     this.file.previewRenderer.load('http://127.0.0.1:5000/static/' + this.file.name);
+  }
+
+  openImageDialog() {
+    const dialogRef = this.dialog.open(DatafilePreviewImageDialogComponent, {
+      data: this.file
+    });
   }
 
   playPause() {
@@ -60,4 +67,21 @@ export class DatafileCardComponent {
   isMisc() {
     return DataFile.isMisc(this.file);
   }
+}
+
+@Component({
+  selector: 'app-datafile-preview-image-dialog',
+  templateUrl: 'app-datafile-preview-image-dialog.html',
+})
+export class DatafilePreviewImageDialogComponent {
+
+  constructor(
+    public dialogRef: MatDialogRef<DatafilePreviewImageDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public file: DataFile
+  ) {}
+
+  onClick(): void {
+    this.dialogRef.close();
+  }
+
 }

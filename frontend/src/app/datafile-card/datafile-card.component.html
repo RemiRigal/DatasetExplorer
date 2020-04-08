@@ -9,7 +9,7 @@
   </mat-card-header>
 
   <div id="waveform_{{file.name.split('.')[0]}}" *ngIf="isAudio()"></div>
-  <div id="image_{{file.name.split('.')[0]}}" class="image-container" style="{{'height: ' + heightFactor + 'px'}}" *ngIf="isImage()">
+  <div id="image_{{file.name.split('.')[0]}}" class="image-container" style="{{'height: ' + heightFactor + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
     <img alt="centered image" src="http://localhost:5000/static/{{file.name}}" class="image-preview" style="{{'height: ' + (heightFactor - 4) + 'px'}}" *ngIf="file.loadPreview"/>
   </div>
 
