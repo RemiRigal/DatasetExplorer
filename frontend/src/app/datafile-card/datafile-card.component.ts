@@ -14,6 +14,7 @@ export class DatafileCardComponent {
 
   @Input() file: DataFile;
   @Input() heightFactor: number;
+  @Input() waveSurferBarWidth = 2;
 
   constructor(public dialog: MatDialog) { }
 
@@ -36,7 +37,7 @@ export class DatafileCardComponent {
       progressColor: 'hsl(210, 79%, 46%)',
       cursorColor: '#707070',
       normalize: true,
-      barWidth: 2,
+      barWidth: this.waveSurferBarWidth,
       barMinHeight: 1
     });
     this.file.previewRenderer.load('http://127.0.0.1:5000/static/' + this.file.name);
