@@ -1,25 +1,28 @@
 # coding: utf-8
 
 import os
+import sys
 import librosa
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, send_from_directory
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from dataset_explorer.filetypes import FileType
+from dataset_explorer.plugins.manager import PluginManager
 
+
+root = os.getenv("DATASET_EXPLORER_ROOT", "")
+pluginManager = PluginManager()
 
 app = Flask(__name__, static_url_path="")
 CORS(app)
 api = Api(app)
-
-root = os.getenv("DATASET_EXPLORER_ROOT", "")
 
 
 class StaticFile(Resource):
 
     def get(self, path):
         if os.path.exists(os.path.join(root, path)):
-            return send_file(os.path.join(root, path))
+            return send_from_directory(root, path)
         return []
 
 
@@ -35,7 +38,8 @@ class DataFiles(Resource):
             "name": name,
             "size": os.path.getsize(os.path.join(root, name)),
             "ext": name.split(".")[-1],
-            "type": FileType.getFileType(name).value
+            "type": FileType.getFileType(name).value,
+            "url": "/static/{}".format(name)
         } for name in sorted(fileList)]
 
 
@@ -47,10 +51,39 @@ class AudioDataFile(Resource):
         return {"name": filename, "wave": wave.tolist(), "sr": sr}
 
 
+class Plugins(Resource):
+
+    def get(self, name=None, filename=None):
+        if name is None:
+            return pluginManager.getAvailablePlugins()
+        kwargs = dict()
+        filePath = os.path.join(root, filename)
+        processedFile = pluginManager.applyPlugin(name, filePath, **kwargs)
+        return {
+            "name": os.path.basename(processedFile),
+            "size": os.path.getsize(processedFile),
+            "ext": processedFile.split(".")[-1],
+            "type": FileType.getFileType(processedFile).value,
+            "url": "/plugins/static/{}/{}".format(name, filename)
+        }
+
+
+class ProcessedFile(Resource):
+
+    def get(self, name, filename):
+        kwargs = dict()
+        filePath = os.path.join(root, filename)
+        processedFile = pluginManager.applyPlugin(name, filePath, **kwargs)
+        return send_file(processedFile)
+
+
 api.add_resource(StaticFile, "/static/<path:path>")
 api.add_resource(DataFiles, "/datafiles", endpoint="datafiles")
 api.add_resource(DataFiles, "/datafiles/<path:filename>", endpoint="datafile")
 api.add_resource(AudioDataFile, "/datafile/audio/<path:filename>")
+api.add_resource(Plugins, "/plugins", endpoint="plugins")
+api.add_resource(ProcessedFile, "/plugins/static/<string:name>/<path:filename>")
+api.add_resource(Plugins, "/plugins/<string:name>/<path:filename>", endpoint="plugin")
 
 
 if __name__ == "__main__":
