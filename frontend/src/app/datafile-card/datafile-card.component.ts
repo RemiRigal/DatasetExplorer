@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {DataFile} from '../classes/DataFile';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Data} from '@angular/router';
+import {RestService} from '../api/rest.service';
 
 declare var WaveSurfer: any;
 
@@ -27,6 +27,10 @@ export class DatafileCardComponent {
     }
   }
 
+  getImageUrl() {
+    return RestService.getStaticFileUrl(this.file.url);
+  }
+
   loadAudioPreview() {
     this.file.previewRenderer = WaveSurfer.create({
       container: '#waveform_' + this.file.name.split('.')[0],
@@ -40,13 +44,13 @@ export class DatafileCardComponent {
       barWidth: this.waveSurferBarWidth,
       barMinHeight: 1
     });
-    this.file.previewRenderer.load('http://127.0.0.1:5000/static/' + this.file.name);
+    this.file.previewRenderer.load(RestService.getStaticFileUrl(this.file.url));
   }
 
   openImageDialog() {
     this.dialog.open(DatafilePreviewImageDialogComponent, {
       maxHeight: '90vh',
-      data: this.file
+      data: RestService.getStaticFileUrl(this.file.url)
     });
   }
 
@@ -79,7 +83,7 @@ export class DatafilePreviewImageDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<DatafilePreviewImageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public file: DataFile
+    @Inject(MAT_DIALOG_DATA) public staticUrl: string
   ) {}
 
   onClick(): void {

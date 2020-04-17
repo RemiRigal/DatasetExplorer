@@ -1,8 +1,12 @@
+.datafile-scroll-container {
+  height: calc(100vh - 64px - 30px);
+}
+
 .datafile-container {
   padding: 14px;
-  padding-bottom: 44px;
-  height: 100%;
 }
+
+.datafile-grid { }
 
 .datafile-grid::after {
   content: '';
@@ -10,7 +14,7 @@
 }
 
 .browser-footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   height: 18px;
   padding: 6px;

@@ -8,14 +8,16 @@ export class DataFile {
   size: number;
   ext: string;
   type: string;
+  url: string;
   loadPreview = false;
   previewRenderer: any = null;
 
-  constructor(name, size, ext, type) {
+  constructor(name, size, ext, type, url) {
     this.name = name;
     this.size = size;
     this.ext = ext;
     this.type = type;
+    this.url = url;
   }
 
   public static isAudio(file) {

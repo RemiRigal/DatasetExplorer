@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angula
 import {RestService} from '../api/rest.service';
 import {DataFile} from '../classes/DataFile';
 import {ActivatedRoute} from '@angular/router';
+import {DataPlugin} from '../classes/DataPlugin';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
 
   filename: string;
   file: DataFile;
+  processed: DataFile[] = [];
 
   ngOnInit() {
     this.rs.getDataFile(this.filename).subscribe(
@@ -31,7 +33,11 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() { }
 
+  onProcess(plugin: DataPlugin) {
+    this.rs.applyPlugin(plugin.name, this.file.name).subscribe((response) => {
+      this.processed.push(response);
+    });
   }
 }

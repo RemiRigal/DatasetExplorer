@@ -1,5 +1,25 @@
-<div class="datafile-container">
+<mat-sidenav-container class="processor-container">
 
-  <app-datafile-card *ngIf="file" [file]="file" [heightFactor]="120" [waveSurferBarWidth]="1"></app-datafile-card>
+  <mat-sidenav opened mode="side" style="width: 250px">
+    <app-toolbar *ngIf="file" [dataFileType]="file.type" (process)="onProcess($event)"></app-toolbar>
+  </mat-sidenav>
+<!--  <mat-sidenav opened mode="side" position="end">End content</mat-sidenav>-->
 
-</div>
+  <mat-sidenav-content>
+    <div class="datafile-container">
+
+      <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
+
+        <div fxFlex="1 1 calc({{25}}%)">
+          <app-datafile-card *ngIf="file" [file]="file" [heightFactor]="120" [waveSurferBarWidth]="1"></app-datafile-card>
+        </div>
+
+        <div *ngFor="let processedFile of processed" fxFlex="1 1 calc({{25}}%)">
+          <app-datafile-card [file]="processedFile" [heightFactor]="120" [waveSurferBarWidth]="1"></app-datafile-card>
+        </div>
+
+      </div>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

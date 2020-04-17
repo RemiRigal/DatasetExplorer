@@ -1,13 +1,15 @@
-<div class="datafile-container">
+<div class="datafile-scroll-container scrollbar scrollbar-primary">
+  <div class="datafile-container">
 
-  <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
+    <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
 
-    <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{zoomFactor}}%)">
-      <app-datafile-card [file]="file" [heightFactor]="heightFactor"></app-datafile-card>
+      <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{zoomFactor}}%)">
+        <app-datafile-card [file]="file" [heightFactor]="heightFactor"></app-datafile-card>
+      </div>
+
     </div>
 
   </div>
-
 </div>
 
 <div class="row browser-footer">

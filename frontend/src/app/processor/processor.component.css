@@ -1,9 +1,19 @@
 .card-gridtile {
 }
 
+.processor-container {
+  height: calc(100vh - 64px);
+}
+
+.datafile-grid { }
+
+.datafile-grid::after {
+  content: '';
+  flex-grow: 10000000000;
+}
+
 .datafile-container {
   padding: 14px;
-  height: 100%;
 }
 
 mat-icon.mat-card-avatar {

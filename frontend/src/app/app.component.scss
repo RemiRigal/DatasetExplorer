@@ -2,22 +2,19 @@
 
 
 .app-container {
-  height: 100%;
-  overflow-y: auto;
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
 }
 
-.sidebar-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.app-header-container {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
 }
 
-mat-sidenav {
-  width: 250px;
-}
-
-.mat-sidenav-primary {
-  //background: mat-color($primary);
+.app-content-container {
+  display: flex;
+  flex-flow: column;
+  flex: 0 1 auto;
 }
