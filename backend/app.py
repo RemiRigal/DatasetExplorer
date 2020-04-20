@@ -87,4 +87,4 @@ api.add_resource(Plugins, "/plugins/<string:name>/<path:filename>", endpoint="pl
 
 
 if __name__ == "__main__":
-     app.run()
+     app.run(host="0.0.0.0")

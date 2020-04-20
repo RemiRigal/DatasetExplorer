@@ -13,13 +13,21 @@ class BasePlugin(object):
         self.inType = inType
         self.outType = outType
         self.icon = icon
-        self.outExtension = outExtension
+        self.outExtension = outExtension,
 
     def __call__(self, filename, outFilename, **kwargs):
         return self.process(filename, outFilename, **kwargs)
 
     def process(self, filename, outFilename, **kwargs):
         raise NotImplementedError
+
+    def toJson(self):
+        return {
+            "name": self.name,
+            "inType": self.inType.value,
+            "outType": self.outType.value,
+            "icon": self.icon
+        }
 
 
 class AudioPlugin(BasePlugin):

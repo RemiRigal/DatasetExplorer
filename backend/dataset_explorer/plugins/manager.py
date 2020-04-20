@@ -32,20 +32,10 @@ class PluginManager(object):
         return self.plugins[name](filename, processedFileName, **kwargs)
 
     def getAvailablePlugins(self):
-        return [{
-            "name": plugin.name,
-            "inType": plugin.inType.value,
-            "outType": plugin.outType.value,
-            "icon": plugin.icon
-        } for name, plugin in self.plugins.items()]
+        return [plugin.toJson() for name, plugin in self.plugins.items()]
 
     def getAvailablePluginsByInType(self, inType: FileType):
-        return [{
-            "name": plugin.name,
-            "inType": plugin.inType.value,
-            "outType": plugin.outType.value,
-            "icon": plugin.icon
-        } for name, plugin in self.plugins.items() if plugin.inType == inType]
+        return [plugin.toJson() for name, plugin in self.plugins.items() if plugin.inType == inType]
 
     def _discoverPlugins(self):
         plugins = dict()

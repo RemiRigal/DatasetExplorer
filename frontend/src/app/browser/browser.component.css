@@ -1,5 +1,6 @@
 .datafile-scroll-container {
   height: calc(100vh - 64px - 30px);
+  width: 100vw;
 }
 
 .datafile-container {

@@ -1,0 +1,33 @@
+# docker-compose.yml
+
+version: '3'
+services:
+
+  backend:
+    image: dataset-explorer-backend:v1.0
+    ports:
+      - 127.0.0.1:5000:5000
+    environment:
+      DATASET_EXPLORER_ROOT: /data
+    expose:
+      - 5000
+    networks:
+      - dataset-explorer
+    restart: always
+    volumes:
+      - ./data:/data
+
+  frontend:
+    image: dataset-explorer-frontend:v1.0
+    ports:
+      - 127.0.0.1:4200:4200
+    expose:
+      - 4200
+    networks:
+      - dataset-explorer
+    depends_on:
+      - backend
+    restart: always
+
+networks:
+  dataset-explorer:
