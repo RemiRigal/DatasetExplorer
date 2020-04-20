@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import cv2
-import tempfile
 import numpy as np
 from scipy.signal import stft
 from matplotlib.figure import Figure
