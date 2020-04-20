@@ -60,7 +60,7 @@ class Plugins(Resource):
         filePath = os.path.join(root, filename)
         processedFile = pluginManager.applyPlugin(name, filePath, **kwargs)
         return {
-            "name": os.path.basename(processedFile),
+            "name": name,
             "size": os.path.getsize(processedFile),
             "ext": processedFile.split(".")[-1],
             "type": FileType.getFileType(processedFile).value,

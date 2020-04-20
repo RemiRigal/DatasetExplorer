@@ -15,6 +15,7 @@ export class DatafileCardComponent {
   @Input() file: DataFile;
   @Input() heightFactor: number;
   @Input() waveSurferBarWidth = 2;
+  @Input() selectable = false;
 
   constructor(public dialog: MatDialog) { }
 
