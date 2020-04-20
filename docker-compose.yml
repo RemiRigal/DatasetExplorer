@@ -4,7 +4,7 @@ version: '3'
 services:
 
   backend:
-    image: dataset-explorer-backend:v1.0
+    image: remirigal/dataset-explorer-backend
     ports:
       - 127.0.0.1:5000:5000
     environment:
@@ -18,7 +18,7 @@ services:
       - ./data:/data
 
   frontend:
-    image: dataset-explorer-frontend:v1.0
+    image: remirigal/dataset-explorer-frontend
     ports:
       - 127.0.0.1:4200:4200
     expose:
