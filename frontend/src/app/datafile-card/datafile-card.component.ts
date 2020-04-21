@@ -19,12 +19,20 @@ export class DatafileCardComponent {
 
   constructor(public dialog: MatDialog) { }
 
-  loadPreview() {
-    this.file.loadPreview = true;
-    if (this.isAudio()) {
-      this.loadAudioPreview();
-    } else if (this.isImage()) {
-      this.file.previewRenderer = document.querySelector('#image_' + this.file.name.split('.')[0]);
+  loadPreview(visible: boolean) {
+    if (!visible) {
+      this.file.loadPreview = false;
+      if (this.isAudio()) {
+        this.file.previewRenderer.destroy();
+      }
+      this.file.previewRenderer = undefined;
+    } else {
+      this.file.loadPreview = true;
+      if (this.isAudio()) {
+        this.loadAudioPreview();
+      } else if (this.isImage()) {
+        this.file.previewRenderer = document.querySelector('#image_' + this.file.name.split('.')[0]);
+      }
     }
   }
 

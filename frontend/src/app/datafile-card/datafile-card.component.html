@@ -1,4 +1,4 @@
-<mat-card (appDeferLoad)="loadPreview()">
+<mat-card (appDeferLoad)="loadPreview($event)">
   <mat-card-header>
 
     <mat-icon mat-card-avatar color="primary" *ngIf="isAudio()">audiotrack</mat-icon>
@@ -8,7 +8,7 @@
     <mat-card-subtitle>Type: {{file.type}} ({{file.ext}}) - {{(file.size / (1024 * 1024)).toFixed(2)}} MB</mat-card-subtitle>
   </mat-card-header>
 
-  <div id="waveform_{{file.name.split('.')[0]}}" *ngIf="isAudio()"></div>
+  <div id="waveform_{{file.name.split('.')[0]}}" *ngIf="isAudio()" style="{{'height: ' + heightFactor + 'px'}}"></div>
   <div id="image_{{file.name.split('.')[0]}}" class="image-container" style="{{'height: ' + heightFactor + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
     <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (heightFactor - 4) + 'px'}}" *ngIf="file.loadPreview"/>
   </div>

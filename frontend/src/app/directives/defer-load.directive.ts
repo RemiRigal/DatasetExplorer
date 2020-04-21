@@ -5,9 +5,10 @@ import {AfterViewInit, Directive, ElementRef, EventEmitter, Output} from '@angul
 })
 export class DeferLoadDirective implements AfterViewInit {
 
-  @Output() public appDeferLoad: EventEmitter<any> = new EventEmitter();
+  @Output() public appDeferLoad: EventEmitter<boolean> = new EventEmitter();
 
   private intersectionObserver?: IntersectionObserver;
+  private visible = false;
 
   constructor(private element: ElementRef) {}
 
@@ -21,9 +22,11 @@ export class DeferLoadDirective implements AfterViewInit {
   private checkForIntersection = (entries: Array<IntersectionObserverEntry>) => {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (this.checkIfIntersecting(entry)) {
-        this.appDeferLoad.emit();
-        this.intersectionObserver.unobserve(this.element.nativeElement as Element);
-        this.intersectionObserver.disconnect();
+        this.visible = true;
+        this.appDeferLoad.emit(this.visible);
+      } else if (this.visible) {
+        this.visible = false;
+        this.appDeferLoad.emit(this.visible);
       }
     });
   }
