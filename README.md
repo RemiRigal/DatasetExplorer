@@ -10,6 +10,7 @@ Dataset Explorer provides the following features:
    - Easy visualization of data
    - Plugin-based tool system for easy data processing
 
+![Browser](docs/assets/screenshots/Brower.png)
 
 ## Getting Started
 
