@@ -21,6 +21,7 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
   filename: string;
   file: DataFile;
   processed: DataFile[] = [];
+  processedIndex: Map<string, number> = new Map<string, number>();
 
   ngOnInit() {
     this.rs.getDataFile(this.filename).subscribe(
@@ -36,8 +37,11 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() { }
 
   onProcess(plugin: DataPlugin) {
+    const tempFile = new DataFile(plugin.name, 0, '', plugin.outType, '');
+    const count = this.processed.push(tempFile);
+    this.processedIndex.set(plugin.name, count - 1);
     this.rs.applyPlugin(plugin.name, this.file.name).subscribe((response) => {
-      this.processed.push(response);
+      this.processed.splice(this.processedIndex.get(plugin.name), 1, response);
     });
   }
 }

@@ -5,12 +5,17 @@
     <mat-icon mat-card-avatar color="primary" *ngIf="isImage()">image</mat-icon>
 
     <mat-card-title class="ellipsis">{{file.name}}</mat-card-title>
-    <mat-card-subtitle>Type: {{file.type}} ({{file.ext}}) - {{(file.size / (1024 * 1024)).toFixed(2)}} MB</mat-card-subtitle>
+    <mat-card-subtitle>Type: {{file.type}} {{file.ext ? '(' + file.ext + ')' : ''}} - {{file.size ? (file.size / (1024 * 1024)).toFixed(2) : '-'}} MB</mat-card-subtitle>
   </mat-card-header>
 
-  <div id="waveform_{{file.name.split('.')[0]}}" *ngIf="isAudio()" style="{{'height: ' + heightFactor + 'px'}}"></div>
-  <div id="image_{{file.name.split('.')[0]}}" class="image-container" style="{{'height: ' + heightFactor + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
-    <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (heightFactor - 4) + 'px'}}" *ngIf="file.loadPreview"/>
+  <div *ngIf="file.url !== ''">
+    <div id="waveform_{{file.name.split('.')[0]}}" *ngIf="isAudio()" style="{{'height: ' + heightFactor + 'px'}}"></div>
+    <div id="image_{{file.name.split('.')[0]}}" class="image-container" style="{{'height: ' + heightFactor + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
+      <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (heightFactor - 4) + 'px'}}" *ngIf="file.loadPreview"/>
+    </div>
+  </div>
+  <div *ngIf="file.url === ''" class="spinner-container" style="{{'height: ' + heightFactor + 'px'}}">
+    <mat-progress-spinner class="spinner" color="primary" mode="indeterminate" diameter="50"></mat-progress-spinner>
   </div>
 
   <mat-card-actions>

@@ -29,3 +29,13 @@ mat-icon.mat-card-avatar {
   text-align: center;
   max-width: 100%;
 }
+
+.spinner-container {
+  display: grid;
+  place-items: center;
+  max-width: 100%;
+}
+
+.spinner {
+  margin: 0 auto;
+}

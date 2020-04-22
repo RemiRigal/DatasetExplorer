@@ -20,7 +20,9 @@ export class DatafileCardComponent {
   constructor(public dialog: MatDialog) { }
 
   loadPreview(visible: boolean) {
-    if (!visible) {
+    if (this.file.url === '') {
+
+    } else if (!visible) {
       this.file.loadPreview = false;
       if (this.isAudio()) {
         this.file.previewRenderer.destroy();

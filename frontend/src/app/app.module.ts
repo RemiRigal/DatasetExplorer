@@ -31,6 +31,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {DeferLoadDirective} from './directives/defer-load.directive';
 import {DatafileCardComponent, DatafilePreviewImageDialogComponent} from './datafile-card/datafile-card.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
-    MatSliderModule
+    MatSliderModule,
+    MatRadioModule
   ],
   providers: [
     RestService,
