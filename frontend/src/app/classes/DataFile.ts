@@ -4,6 +4,7 @@ export class DataFile {
   public static TYPE_AUDIO = 'audio';
   public static TYPE_IMAGE = 'image';
 
+  id: string;
   name: string;
   size: number;
   ext: string;
@@ -12,7 +13,8 @@ export class DataFile {
   loadPreview = false;
   previewRenderer: any = null;
 
-  constructor(name, size, ext, type, url) {
+  constructor(id, name, size, ext, type, url) {
+    this.id = id;
     this.name = name;
     this.size = size;
     this.ext = ext;

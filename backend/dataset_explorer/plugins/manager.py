@@ -39,6 +39,7 @@ class PluginManager(object):
         if not os.path.exists(processedFileName):
             raise OutputFileNotFound("No output file for plugin {}".format(className))
         return {
+            "id": className,
             "name": plugin.name,
             "size": os.path.getsize(processedFileName),
             "ext": plugin.outExtension,

@@ -35,6 +35,7 @@ class DataFiles(Resource):
         elif filename is None:
             fileList = os.listdir(root)
         return [{
+            "id": name.split(".")[0],
             "name": name,
             "size": os.path.getsize(os.path.join(root, name)),
             "ext": name.split(".")[-1],

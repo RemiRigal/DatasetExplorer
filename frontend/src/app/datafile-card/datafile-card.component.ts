@@ -33,7 +33,7 @@ export class DatafileCardComponent {
       if (this.isAudio()) {
         this.loadAudioPreview();
       } else if (this.isImage()) {
-        this.file.previewRenderer = document.querySelector('#image_' + this.file.name.split('.')[0]);
+        this.file.previewRenderer = document.querySelector('#image_' + this.file.id);
       }
     }
   }
@@ -44,7 +44,7 @@ export class DatafileCardComponent {
 
   loadAudioPreview() {
     this.file.previewRenderer = WaveSurfer.create({
-      container: '#waveform_' + this.file.name.split('.')[0],
+      container: '#waveform_' + this.file.id,
       waveColor: '#404040',
       height: this.heightFactor,
       responsive: true,

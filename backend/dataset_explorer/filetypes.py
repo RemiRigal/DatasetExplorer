@@ -11,6 +11,7 @@ class FileType(Enum):
     AUDIO = "audio"
     IMAGE = "image"
     TEXT = "text"
+    VIDEO = "video"
 
     @staticmethod
     def getFileType(filename):
@@ -25,7 +26,8 @@ _EXT_TO_TYPE = {
     ".png": FileType.IMAGE,
     ".jpg": FileType.IMAGE,
     ".jpeg": FileType.IMAGE,
-    ".txt": FileType.TEXT
+    ".txt": FileType.TEXT,
+    ".mp4": FileType.VIDEO
 }
 
 
