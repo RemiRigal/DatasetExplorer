@@ -12,6 +12,10 @@
   width: 100%;
 }
 
+.main-logo {
+  margin-right: 16px;
+}
+
 .main-icon {
   margin-right: 6px;
   vertical-align: middle;

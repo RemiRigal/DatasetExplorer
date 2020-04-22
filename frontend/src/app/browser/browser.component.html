@@ -4,7 +4,7 @@
     <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
 
       <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{cardWidth}}%)">
-        <app-datafile-card [file]="file" [cardHeight]="cardHeight" [selectable]="true"></app-datafile-card>
+        <app-datafile-card [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [selectable]="true"></app-datafile-card>
       </div>
 
     </div>

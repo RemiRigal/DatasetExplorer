@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DataFile} from '../classes/DataFile';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RestService} from '../api/rest.service';
@@ -13,11 +13,42 @@ declare var WaveSurfer: any;
 export class DatafileCardComponent {
 
   @Input() file: DataFile;
-  @Input() cardHeight: number;
   @Input() waveSurferBarWidth = 2;
   @Input() selectable = false;
 
+  cardHeightValue: number;
+  cardWidthValue: number;
+
   constructor(public dialog: MatDialog) { }
+
+  @Input()
+  get cardHeight() {
+    return this.cardHeightValue;
+  }
+
+  set cardHeight(height) {
+    this.cardHeightValue = height;
+    if (this.file.previewRenderer) {
+      if (this.isAudio()) {
+        this.file.previewRenderer.setHeight(this.cardHeightValue);
+      } else if (this.isImage()) {
+        this.file.previewRenderer.style.height = this.cardHeightValue + 'px';
+        this.file.previewRenderer.firstChild.style.height = (this.cardHeightValue - 4) + 'px';
+      }
+    }
+  }
+
+  @Input()
+  get cardWidth() {
+    return this.cardWidthValue;
+  }
+
+  set cardWidth(width) {
+    this.cardWidthValue = width;
+    if (this.file.previewRenderer && this.isAudio()) {
+      this.file.previewRenderer._onResize();
+    }
+  }
 
   loadPreview(visible: boolean) {
     if (this.file.url === '') {

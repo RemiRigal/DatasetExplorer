@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <div class="row center">
+    <div class="row center main-logo">
       <a class="index-button" href="/">
         <h1>
           <mat-icon class="main-icon" color="accent" inline>data_usage</mat-icon>
@@ -8,6 +8,10 @@
         </h1>
       </a>
     </div>
+    <a mat-button href="/browser">Browse</a>
+    <a mat-button href="/processor">Process</a>
+    <a mat-button href="/">Stats</a>
+    <a mat-button href="/">Plugins</a>
     <span class="spacer"></span>
     <form class="header-form">
       <mat-form-field class="header-full-width" floatLabel="never" [style.fontSize.px]="14">
