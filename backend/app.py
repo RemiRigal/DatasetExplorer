@@ -58,14 +58,7 @@ class Plugins(Resource):
             return pluginManager.getAvailablePlugins()
         kwargs = dict()
         filePath = os.path.join(root, filename)
-        processedFile = pluginManager.applyPlugin(name, filePath, **kwargs)
-        return {
-            "name": name,
-            "size": os.path.getsize(processedFile),
-            "ext": processedFile.split(".")[-1],
-            "type": FileType.getFileType(processedFile).value,
-            "url": "/plugins/static/{}/{}".format(name, filename)
-        }
+        return pluginManager.applyPlugin(name, filePath, **kwargs)
 
 
 class ProcessedFile(Resource):

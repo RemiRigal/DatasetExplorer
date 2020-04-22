@@ -23,6 +23,7 @@ class BasePlugin(object):
 
     def toJson(self):
         return {
+            "className": self.__class__.__name__,
             "name": self.name,
             "inType": self.inType.value,
             "outType": self.outType.value,

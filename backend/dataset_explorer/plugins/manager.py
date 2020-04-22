@@ -23,20 +23,28 @@ class PluginManager(object):
         self.plugins = self._discoverPlugins()
         self.staticDirectory = tempfile.mkdtemp()
 
-    def applyPlugin(self, name, filename, **kwargs):
+    def applyPlugin(self, className, filename, **kwargs):
+        plugin = self.plugins[className]
         fileDirectory = os.path.join(self.staticDirectory, os.path.basename(filename))
         if not os.path.exists(fileDirectory):
             os.makedirs(fileDirectory)
-        processedFileName = os.path.join(fileDirectory, "{}.{}".format(name, self.plugins[name].outExtension))
+        processedFileExtension = ".{}".format(plugin.outExtension) if plugin.outExtension else ""
+        processedFileName = os.path.join(fileDirectory, "{}{}".format(className, processedFileExtension))
         if os.path.exists(processedFileName):
             return processedFileName
         try:
-            self.plugins[name](filename, processedFileName, **kwargs)
+            plugin(filename, processedFileName, **kwargs)
         except Exception as e:
-            raise ProcessError("Error in plugin {} during processing".format(name), e)
+            raise ProcessError("Error in plugin {} during processing".format(className), e)
         if not os.path.exists(processedFileName):
-            raise OutputFileNotFound("No output file for plugin {}".format(name))
-        return processedFileName
+            raise OutputFileNotFound("No output file for plugin {}".format(className))
+        return {
+            "name": plugin.name,
+            "size": os.path.getsize(processedFileName),
+            "ext": plugin.outExtension,
+            "type": plugin.outType.value,
+            "url": "/plugins/static/{}/{}".format(className, os.path.basename(filename))
+        }
 
     def getAvailablePlugins(self):
         return [plugin.toJson() for name, plugin in self.plugins.items()]
@@ -60,7 +68,7 @@ class PluginManager(object):
                 if inspect.isclass(cls) and cls not in self.baseClasses and issubclass(cls, BasePlugin):
                     try:
                         pluginInstance = cls()
-                        plugins[pluginInstance.name] = pluginInstance
+                        plugins[cls.__name__] = pluginInstance
                     except TypeError as e:
                         raise InstantiationError("Unable to instantiate plugin {}, makes sure that it doesn't have constructor arguments".format(cls.__name__), e)
         return plugins
