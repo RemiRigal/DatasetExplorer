@@ -3,6 +3,7 @@ export class DataFile {
   public static TYPE_MISC = 'misc';
   public static TYPE_AUDIO = 'audio';
   public static TYPE_IMAGE = 'image';
+  public static TYPE_VIDEO = 'video';
 
   id: string;
   name: string;
@@ -32,5 +33,9 @@ export class DataFile {
 
   public static isMisc(file) {
     return file.type === DataFile.TYPE_MISC;
+  }
+
+  public static isVideo(file) {
+    return file.type === DataFile.TYPE_VIDEO;
   }
 }

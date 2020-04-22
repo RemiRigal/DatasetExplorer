@@ -52,8 +52,9 @@ export class DatafileCardComponent {
 
   loadPreview(visible: boolean) {
     if (this.file.url === '') {
-
-    } else if (!visible) {
+      return;
+    }
+    if (!visible) {
       this.file.loadPreview = false;
       if (this.isAudio()) {
         this.file.previewRenderer.destroy();
@@ -70,6 +71,10 @@ export class DatafileCardComponent {
   }
 
   getImageUrl() {
+    return RestService.getStaticFileUrl(this.file.url);
+  }
+
+  getVideoUrl() {
     return RestService.getStaticFileUrl(this.file.url);
   }
 
@@ -112,8 +117,8 @@ export class DatafileCardComponent {
     return DataFile.isImage(this.file);
   }
 
-  isMisc() {
-    return DataFile.isMisc(this.file);
+  isVideo() {
+    return DataFile.isVideo(this.file);
   }
 }
 

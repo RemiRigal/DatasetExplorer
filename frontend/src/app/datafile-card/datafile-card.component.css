@@ -16,18 +16,23 @@ mat-icon.mat-card-avatar {
   text-overflow: ellipsis;
 }
 
-.file-preview {
-  height: 120px;
-}
-
 .image-preview {
-  height: 116px;
   max-width: 100%;
   object-fit: contain;
 }
 
 .image-container {
   text-align: center;
+  max-width: 100%;
+}
+
+.video-container {
+  display: grid;
+  place-items: center;
+}
+
+.video-preview {
+  max-height: 100%;
   max-width: 100%;
 }
 

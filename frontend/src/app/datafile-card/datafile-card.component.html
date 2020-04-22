@@ -3,6 +3,7 @@
 
     <mat-icon mat-card-avatar color="primary" *ngIf="isAudio()">audiotrack</mat-icon>
     <mat-icon mat-card-avatar color="primary" *ngIf="isImage()">image</mat-icon>
+    <mat-icon mat-card-avatar color="primary" *ngIf="isVideo()">videocam</mat-icon>
 
     <mat-card-title class="ellipsis">{{file.name}}</mat-card-title>
     <mat-card-subtitle>Type: {{file.type}} {{file.ext ? '(' + file.ext + ')' : ''}} - {{file.size ? (file.size / (1024 * 1024)).toFixed(2) : '-'}} MB</mat-card-subtitle>
@@ -12,6 +13,11 @@
     <div id="waveform_{{file.id}}" *ngIf="isAudio()" style="{{'height: ' + cardHeight + 'px'}}"></div>
     <div id="image_{{file.id}}" class="image-container" style="{{'height: ' + cardHeight + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
       <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (cardHeight - 4) + 'px'}}" *ngIf="file.loadPreview"/>
+    </div>
+    <div id="video_{{file.id}}" class="video-container" *ngIf="isVideo()" style="{{'height: ' + cardHeight + 'px'}}">
+      <video class="video-preview" preload="metadata" controls style="{{'max-height: ' + cardHeight}}" *ngIf="file.loadPreview">
+        <source src="{{getVideoUrl()}}" type="video/mp4"/>
+      </video>
     </div>
   </div>
   <div *ngIf="file.url === ''" class="spinner-container" style="{{'height: ' + cardHeight + 'px'}}">

@@ -27,7 +27,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/wavesurfer.js/dist/wavesurfer.js"
+              "node_modules/wavesurfer.js/dist/wavesurfer.js",
+              "node_modules/video.js/dist/video.js"
             ]
           },
           "configurations": {
