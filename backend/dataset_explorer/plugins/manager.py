@@ -10,6 +10,7 @@ import importlib.util
 from pkgutil import walk_packages
 from dataset_explorer.filetypes import FileType
 from dataset_explorer.plugins.base import BasePlugin, AudioPlugin, ImagePlugin
+from dataset_explorer.plugins.exceptions import ProcessError, OutputFileNotFound, InstantiationError
 
 
 class PluginManager(object):
@@ -29,7 +30,13 @@ class PluginManager(object):
         processedFileName = os.path.join(fileDirectory, "{}.{}".format(name, self.plugins[name].outExtension))
         if os.path.exists(processedFileName):
             return processedFileName
-        return self.plugins[name](filename, processedFileName, **kwargs)
+        try:
+            self.plugins[name](filename, processedFileName, **kwargs)
+        except Exception as e:
+            raise ProcessError("Error in plugin {} during processing".format(name), e)
+        if not os.path.exists(processedFileName):
+            raise OutputFileNotFound("No output file for plugin {}".format(name))
+        return processedFileName
 
     def getAvailablePlugins(self):
         return [plugin.toJson() for name, plugin in self.plugins.items()]
@@ -40,7 +47,10 @@ class PluginManager(object):
     def _discoverPlugins(self):
         plugins = dict()
         localPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        for fileFinder, name, isPkg in walk_packages([localPath, self.pluginDirectory]):
+        extraPaths = [path for path in os.getenv("DATASET_EXPLORER_PLUGINS", "").split(":") if path]
+        for path in extraPaths:
+            sys.path.append(path)
+        for fileFinder, name, isPkg in walk_packages([localPath, self.pluginDirectory] + extraPaths):
             if isPkg:
                 continue
             module = importlib.import_module(name)
@@ -48,8 +58,11 @@ class PluginManager(object):
             for content in moduleContent:
                 cls = getattr(sys.modules[name], content)
                 if inspect.isclass(cls) and cls not in self.baseClasses and issubclass(cls, BasePlugin):
-                    pluginInstance = cls()
-                    plugins[pluginInstance.name] = pluginInstance
+                    try:
+                        pluginInstance = cls()
+                        plugins[pluginInstance.name] = pluginInstance
+                    except TypeError as e:
+                        raise InstantiationError("Unable to instantiate plugin {}, makes sure that it doesn't have constructor arguments".format(cls.__name__), e)
         return plugins
 
 

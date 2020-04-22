@@ -29,9 +29,3 @@ class STFTPlugin(AudioPlugin):
         width, height = figure.get_size_inches() * figure.get_dpi()
         image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8').reshape(int(height), int(width), 3)
         cv2.imwrite(outFilename, image[:, :, ::-1])
-        return outFilename
-
-
-if __name__ == "__main__":
-    plugin = STFTPlugin()
-    f = plugin("/home/remi/Downloads/Audios/_0cxZ4Yh-LU_220.52_229.72.wav", **{"sr": 16000})
