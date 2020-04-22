@@ -13,7 +13,7 @@ declare var WaveSurfer: any;
 export class DatafileCardComponent {
 
   @Input() file: DataFile;
-  @Input() heightFactor: number;
+  @Input() cardHeight: number;
   @Input() waveSurferBarWidth = 2;
   @Input() selectable = false;
 
@@ -46,7 +46,7 @@ export class DatafileCardComponent {
     this.file.previewRenderer = WaveSurfer.create({
       container: '#waveform_' + this.file.id,
       waveColor: '#404040',
-      height: this.heightFactor,
+      height: this.cardHeight,
       responsive: true,
       hideScrollBar: true,
       progressColor: 'hsl(210, 79%, 46%)',

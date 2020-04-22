@@ -20,7 +20,9 @@ RUN apt-get update -y && \
         libav-tools \
         libsm6 \
         libxext6 \
-        libxrender-dev
+        libxrender-dev \
+        cmake \
+        build-essential
 
 COPY ./requirements.txt /app/requirements.txt
 

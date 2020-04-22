@@ -3,8 +3,8 @@
 
     <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
 
-      <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{zoomFactor}}%)">
-        <app-datafile-card [file]="file" [heightFactor]="heightFactor" [selectable]="true"></app-datafile-card>
+      <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{cardWidth}}%)">
+        <app-datafile-card [file]="file" [cardHeight]="cardHeight" [selectable]="true"></app-datafile-card>
       </div>
 
     </div>
@@ -12,14 +12,4 @@
   </div>
 </div>
 
-<div class="row browser-footer">
-  <span class="spacer"></span>
-  <mat-icon class="footer-slider-icon" inline>view_day</mat-icon>
-  <mat-slider class="mat-slider" min="120" max="280" step="40" [(ngModel)]="heightFactor" (change)="onHeightFactorChanged()"></mat-slider>
-  <mat-divider class="divider" [vertical]="true" style="margin: 0 8px 0 6px;"></mat-divider>
-  <mat-icon class="footer-slider-icon" inline>zoom_in</mat-icon>
-  <mat-slider class="mat-slider" min="10" max="55" step="15" [(ngModel)]="zoomFactor" (change)="onZoomFactorChanged()"></mat-slider>
-  <mat-divider class="divider" [vertical]="true" style="margin: 0 8px 0 6px;"></mat-divider>
-  <div>{{dataFiles.length}} Files</div>
-</div>
-
+<app-footer [fileCount]="dataFiles.length" [(height)]="cardHeight" [(width)]="cardWidth"></app-footer>

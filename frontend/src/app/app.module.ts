@@ -32,6 +32,7 @@ import {DeferLoadDirective} from './directives/defer-load.directive';
 import {DatafileCardComponent, DatafilePreviewImageDialogComponent} from './datafile-card/datafile-card.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatRadioModule} from '@angular/material/radio';
     DeferLoadDirective,
     DatafileCardComponent,
     DatafilePreviewImageDialogComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

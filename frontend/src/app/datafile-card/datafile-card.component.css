@@ -23,6 +23,7 @@ mat-icon.mat-card-avatar {
 .image-preview {
   height: 116px;
   max-width: 100%;
+  object-fit: contain;
 }
 
 .image-container {

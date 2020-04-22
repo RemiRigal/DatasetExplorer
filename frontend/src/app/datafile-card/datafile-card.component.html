@@ -9,12 +9,12 @@
   </mat-card-header>
 
   <div *ngIf="file.url !== ''">
-    <div id="waveform_{{file.id}}" *ngIf="isAudio()" style="{{'height: ' + heightFactor + 'px'}}"></div>
-    <div id="image_{{file.id}}" class="image-container" style="{{'height: ' + heightFactor + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
-      <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (heightFactor - 4) + 'px'}}" *ngIf="file.loadPreview"/>
+    <div id="waveform_{{file.id}}" *ngIf="isAudio()" style="{{'height: ' + cardHeight + 'px'}}"></div>
+    <div id="image_{{file.id}}" class="image-container" style="{{'height: ' + cardHeight + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
+      <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (cardHeight - 4) + 'px'}}" *ngIf="file.loadPreview"/>
     </div>
   </div>
-  <div *ngIf="file.url === ''" class="spinner-container" style="{{'height: ' + heightFactor + 'px'}}">
+  <div *ngIf="file.url === ''" class="spinner-container" style="{{'height: ' + cardHeight + 'px'}}">
     <mat-progress-spinner class="spinner" color="primary" mode="indeterminate" diameter="50"></mat-progress-spinner>
   </div>
 

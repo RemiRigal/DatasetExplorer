@@ -1,6 +1,7 @@
 import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {RestService} from '../api/rest.service';
 import {DataFile} from '../classes/DataFile';
+import {CustomStorage} from '../utils/CustomStorage';
 
 @Component({
   selector: 'app-browser',
@@ -12,8 +13,8 @@ export class BrowserComponent implements OnInit {
   constructor(private rs: RestService) {}
 
   dataFiles: DataFile[] = [];
-  heightFactor = parseInt(localStorage.getItem('browserHeightFactor'), 10) || 120;
-  zoomFactor = parseInt(localStorage.getItem('browserZoomFactor'), 10) || 25;
+  cardHeightValue = CustomStorage.getCardHeight();
+  cardWidthValue = CustomStorage.getCardWidth();
 
   ngOnInit() {
     this.rs.getDataFiles().subscribe(
@@ -26,29 +27,34 @@ export class BrowserComponent implements OnInit {
     );
   }
 
-  onZoomFactorChanged() {
+  get cardWidth() {
+    return this.cardWidthValue;
+  }
+
+  set cardWidth(width) {
+    this.cardWidthValue = width;
     this.dataFiles.forEach(file => {
       if (file.previewRenderer && DataFile.isAudio(file)) {
         file.previewRenderer._onResize();
       }
     });
-    localStorage.setItem('browserZoomFactor', this.zoomFactor + '');
   }
 
-  onHeightFactorChanged() {
+  get cardHeight() {
+    return this.cardHeightValue;
+  }
+
+  set cardHeight(height) {
+    this.cardHeightValue = height;
     this.dataFiles.forEach(file => {
-      if (DataFile.isImage(file)) {
-        console.log(file.previewRenderer);
-      }
       if (file.previewRenderer) {
         if (DataFile.isAudio(file)) {
-          file.previewRenderer.setHeight(this.heightFactor);
+          file.previewRenderer.setHeight(this.cardHeightValue);
         } else if (DataFile.isImage(file)) {
-          file.previewRenderer.style.height = this.heightFactor + 'px';
-          file.previewRenderer.firstChild.style.height = (this.heightFactor - 4) + 'px';
+          file.previewRenderer.style.height = this.cardHeightValue + 'px';
+          file.previewRenderer.firstChild.style.height = (this.cardHeightValue - 4) + 'px';
         }
       }
     });
-    localStorage.setItem('browserHeightFactor', this.heightFactor + '');
   }
 }
