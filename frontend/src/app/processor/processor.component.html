@@ -8,17 +8,25 @@
   <mat-sidenav-content>
     <div class="datafile-container">
 
-      <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
+<!--      <div style="{{'width: ' + cardWidth + '%'}}" class="datafile-grid">-->
+<!--        <app-datafile-card *ngIf="file" [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>-->
+<!--      </div>-->
 
-        <div fxFlex="1 1 calc({{cardWidth}}%)">
-          <app-datafile-card *ngIf="file" [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>
-        </div>
-
-        <div *ngFor="let processedFile of processed" fxFlex="1 1 calc({{cardWidth}}%)">
-          <app-datafile-card [file]="processedFile" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>
-        </div>
-
+      <div *ngFor="let processedFile of processed" style="{{'width: ' + (cardWidth - 1) + '%'}}" class="datafile-grid">
+        <app-datafile-card [file]="processedFile" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>
       </div>
+
+<!--      <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">-->
+
+<!--        <div fxFlex="1 1 calc({{cardWidth}}%)">-->
+<!--          <app-datafile-card *ngIf="file" [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>-->
+<!--        </div>-->
+
+<!--        <div *ngFor="let processedFile of processed" fxFlex="1 1 calc({{cardWidth}}%)">-->
+<!--          <app-datafile-card [file]="processedFile" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>-->
+<!--        </div>-->
+
+<!--      </div>-->
     </div>
 
     <app-footer [fileCount]="1 + processed.length" [left]="250" [(height)]="cardHeight" [(width)]="cardWidth"></app-footer>

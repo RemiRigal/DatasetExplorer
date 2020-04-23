@@ -2,18 +2,17 @@
 }
 
 .processor-container {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 64px - 30px);
 }
 
-.datafile-grid { }
-
-.datafile-grid::after {
-  content: '';
-  flex-grow: 10000000000;
+.datafile-grid {
+  display: inline-block !important;
+  padding: 7px;
+  vertical-align: top;
 }
 
 .datafile-container {
-  padding: 14px;
+  padding: 7px;
 }
 
 mat-icon.mat-card-avatar {

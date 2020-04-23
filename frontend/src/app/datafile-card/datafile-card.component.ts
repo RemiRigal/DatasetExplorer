@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DataFile} from '../classes/DataFile';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {RestService} from '../api/rest.service';
@@ -10,7 +10,7 @@ declare var WaveSurfer: any;
   templateUrl: './datafile-card.component.html',
   styleUrls: ['./datafile-card.component.css']
 })
-export class DatafileCardComponent {
+export class DatafileCardComponent implements AfterViewInit {
 
   @Input() file: DataFile;
   @Input() waveSurferBarWidth = 2;
@@ -20,6 +20,10 @@ export class DatafileCardComponent {
   cardWidthValue: number;
 
   constructor(public dialog: MatDialog) { }
+
+  ngAfterViewInit() {
+    // this.loadPreview(true);
+  }
 
   @Input()
   get cardHeight() {
@@ -56,7 +60,7 @@ export class DatafileCardComponent {
     }
     if (!visible) {
       this.file.loadPreview = false;
-      if (this.isAudio()) {
+      if (this.file.previewRenderer && this.isAudio()) {
         this.file.previewRenderer.destroy();
       }
       this.file.previewRenderer = undefined;

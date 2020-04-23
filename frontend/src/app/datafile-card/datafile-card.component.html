@@ -10,18 +10,22 @@
   </mat-card-header>
 
   <div *ngIf="file.url !== ''">
+    <!--  Audio  -->
     <div id="waveform_{{file.id}}" *ngIf="isAudio()" style="{{'height: ' + cardHeight + 'px'}}"></div>
+    <!--  Image  -->
     <div id="image_{{file.id}}" class="image-container" style="{{'height: ' + cardHeight + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
       <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (cardHeight - 4) + 'px'}}" *ngIf="file.loadPreview"/>
     </div>
+    <!--  Video  -->
     <div id="video_{{file.id}}" class="video-container" *ngIf="isVideo()" style="{{'height: ' + cardHeight + 'px'}}">
       <video class="video-preview" preload="metadata" controls style="{{'max-height: ' + cardHeight}}" *ngIf="file.loadPreview">
         <source src="{{getVideoUrl()}}" type="video/mp4"/>
       </video>
     </div>
   </div>
+
   <div *ngIf="file.url === ''" class="spinner-container" style="{{'height: ' + cardHeight + 'px'}}">
-    <mat-progress-spinner class="spinner" color="primary" mode="indeterminate" diameter="50"></mat-progress-spinner>
+    <mat-progress-spinner class="spinner" color="primary" mode="indeterminate" diameter="40" strokeWidth="3"></mat-progress-spinner>
   </div>
 
   <mat-card-actions>

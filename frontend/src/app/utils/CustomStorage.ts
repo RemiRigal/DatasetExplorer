@@ -9,7 +9,7 @@ export class CustomStorage {
   }
 
   public static getCardWidth() {
-    return parseInt(localStorage.getItem('cardWidth'), 10) || 25;
+    return parseFloat(localStorage.getItem('cardWidth')) || 25.0;
   }
 
   public static setCardWidth(cardWidth) {

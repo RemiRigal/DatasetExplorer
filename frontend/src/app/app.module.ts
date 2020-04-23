@@ -30,9 +30,10 @@ import {FormsModule} from '@angular/forms';
 import {MatSliderModule} from '@angular/material/slider';
 import {DeferLoadDirective} from './directives/defer-load.directive';
 import {DatafileCardComponent, DatafilePreviewImageDialogComponent} from './datafile-card/datafile-card.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import {ToolbarComponent} from './toolbar/toolbar.component';
 import {MatRadioModule} from '@angular/material/radio';
-import { FooterComponent } from './footer/footer.component';
+import {FooterComponent} from './footer/footer.component';
+import {VirtualScrollerModule} from 'ngx-virtual-scroller';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { FooterComponent } from './footer/footer.component';
     MatNativeDateModule,
     FormsModule,
     MatSliderModule,
-    MatRadioModule
+    MatRadioModule,
+    VirtualScrollerModule
   ],
   providers: [
     RestService,

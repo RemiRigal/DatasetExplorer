@@ -28,16 +28,14 @@ class PluginManager(object):
         fileDirectory = os.path.join(self.staticDirectory, os.path.basename(filename))
         if not os.path.exists(fileDirectory):
             os.makedirs(fileDirectory)
-        processedFileExtension = ".{}".format(plugin.outExtension) if plugin.outExtension else ""
-        processedFileName = os.path.join(fileDirectory, "{}{}".format(className, processedFileExtension))
-        if os.path.exists(processedFileName):
-            return processedFileName
-        try:
-            plugin(filename, processedFileName, **kwargs)
-        except Exception as e:
-            raise ProcessError("Error in plugin {} during processing".format(className), e)
+        processedFileName = self.getPluginFile(className, filename)
         if not os.path.exists(processedFileName):
-            raise OutputFileNotFound("No output file for plugin {}".format(className))
+            try:
+                plugin(filename, processedFileName, **kwargs)
+            except Exception as e:
+                raise ProcessError("Error in plugin {} during processing".format(className), e)
+            if not os.path.exists(processedFileName):
+                raise OutputFileNotFound("No output file for plugin {}".format(className))
         return {
             "id": className,
             "name": plugin.name,
@@ -46,6 +44,12 @@ class PluginManager(object):
             "type": plugin.outType.value,
             "url": "/plugins/static/{}/{}".format(className, os.path.basename(filename))
         }
+
+    def getPluginFile(self, className, filename):
+        plugin = self.plugins[className]
+        fileDirectory = os.path.join(self.staticDirectory, os.path.basename(filename))
+        processedFileExtension = ".{}".format(plugin.outExtension) if plugin.outExtension else ""
+        return os.path.join(fileDirectory, "{}{}".format(className, processedFileExtension))
 
     def getAvailablePlugins(self):
         return [plugin.toJson() for name, plugin in self.plugins.items()]

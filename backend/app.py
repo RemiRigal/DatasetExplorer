@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import os
-import sys
 import librosa
 from flask import Flask, request, send_file, send_from_directory
 from flask_restful import Resource, Api
@@ -65,10 +64,8 @@ class Plugins(Resource):
 class ProcessedFile(Resource):
 
     def get(self, name, filename):
-        kwargs = dict()
         filePath = os.path.join(root, filename)
-        processedFile = pluginManager.applyPlugin(name, filePath, **kwargs)
-        return send_file(processedFile)
+        return send_file(pluginManager.getPluginFile(name, filePath))
 
 
 api.add_resource(StaticFile, "/static/<path:path>")

@@ -1,14 +1,10 @@
-<div class="datafile-scroll-container scrollbar scrollbar-primary">
+<div #scrollbar class="datafile-scroll-container scrollbar scrollbar-primary">
   <div class="datafile-container">
-
-    <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">
-
-      <div *ngFor="let file of dataFiles" fxFlex="1 1 calc({{cardWidth}}%)">
-        <app-datafile-card [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [selectable]="true"></app-datafile-card>
-      </div>
-
-    </div>
-
+    <virtual-scroller #scroll [items]="dataFiles" [parentScroll]="scrollbar" class="datafile-scroller">
+        <div *ngFor="let file of scroll.viewPortItems; trackBy: trackByFileId" style="{{'width: ' + cardWidth + '%'}}" class="datafile-grid">
+          <app-datafile-card [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [selectable]="true"></app-datafile-card>
+        </div>
+    </virtual-scroller>
   </div>
 </div>
 

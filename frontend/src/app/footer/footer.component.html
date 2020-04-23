@@ -10,7 +10,7 @@
   <mat-slider class="mat-slider" min="120" max="280" step="40" [(value)]="height"></mat-slider>
   <mat-divider class="divider" [vertical]="true" style="margin: 0 8px 0 6px;"></mat-divider>
   <mat-icon class="footer-slider-icon" inline>zoom_in</mat-icon>
-  <mat-slider class="mat-slider" min="10" max="55" step="15" [(value)]="width"></mat-slider>
+  <mat-slider class="mat-slider" min="1" max="5" step="1" [invert]="true" [value]="100 / width" (change)="width = 100 / $event.value"></mat-slider>
   <mat-divider class="divider" [vertical]="true" style="margin: 0 8px 0 6px;"></mat-divider>
   <div>{{fileCount}} Files</div>
 </div>
