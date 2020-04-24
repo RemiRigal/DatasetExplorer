@@ -1,6 +1,3 @@
-.card-gridtile {
-}
-
 .processor-container {
   height: calc(100vh - 64px - 30px);
 }
@@ -13,26 +10,5 @@
 
 .datafile-container {
   padding: 7px;
-}
-
-mat-icon.mat-card-avatar {
-  width: 30px;
-  height: 45px;
-  font-size: 30px;
-  align-self: center;
-  display: flex;
-}
-
-::ng-deep .mat-card-header-text {
-  overflow: hidden;
-}
-
-.ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.waveform-container {
-  height: 200px;
+  display: block;
 }
