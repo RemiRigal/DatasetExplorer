@@ -11,7 +11,7 @@ import {CustomStorage} from '../utils/CustomStorage';
 })
 export class ProcessorToolsOverlayComponent implements OnInit {
 
-  constructor(private overlayRef: ProcessorToolsOverlayRef, @Inject(PROCESSOR_TOOLS_OVERLAY_DATA) private plugin: DataPlugin) {}
+  constructor(private overlayRef: ProcessorToolsOverlayRef, @Inject(PROCESSOR_TOOLS_OVERLAY_DATA) public plugin: DataPlugin) {}
 
   public onApplyPlugin = new EventEmitter<DataPlugin>();
   params = {};
