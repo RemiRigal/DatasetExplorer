@@ -1,3 +1,5 @@
+import {CustomStorage} from '../utils/CustomStorage';
+
 export class DataPlugin {
 
   className: string;
@@ -5,13 +7,40 @@ export class DataPlugin {
   inType: string;
   outType: string;
   icon: string;
+  parameters: DataPluginParameter[];
 
-  constructor(className, name, inType, outType, icon) {
+  constructor(className, name, inType, outType, icon, parameters) {
     this.className = className;
     this.name = name;
     this.inType = inType;
     this.outType = outType;
     this.icon = icon;
+    this.parameters = parameters;
   }
 
+  public static retrieveParameters(plugin) {
+    const userParams = CustomStorage.getPluginParams(plugin.className);
+    plugin.parameters.forEach(parameter => {
+      if (parameter.attributeName in userParams) {
+        parameter.value = userParams[parameter.attributeName];
+      }
+    });
+  }
+}
+
+export class DataPluginParameter {
+
+  attributeName: string;
+  name: string;
+  value: any;
+  defaultValue: any;
+  type: string;
+
+  constructor(attributeName, name, value, defaultValue, type) {
+    this.attributeName = attributeName;
+    this.name = name;
+    this.value = value;
+    this.defaultValue = defaultValue;
+    this.type = type;
+  }
 }

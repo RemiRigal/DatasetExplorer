@@ -1,0 +1,11 @@
+<div *ngFor="let parameter of plugin.parameters; let j = index" class="plugin-param-container">
+  <mat-form-field *ngIf="parameter.type !== 'bool'">
+    <mat-label>{{parameter.name}}</mat-label>
+    <input matInput [(ngModel)]="plugin.parameters[j].value" *ngIf="parameter.type !== 'bool'" (change)="setParameter(plugin.className, parameter, $event.target.value)" [type]="getJsType(parameter.type)">
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="plugin.parameters[j].value" *ngIf="parameter.type === 'bool'" (change)="setParameter(plugin.className, parameter, $event.checked)">{{parameter.name}}</mat-checkbox>
+</div>
+
+<span *ngIf="plugin.parameters.length === 0">
+  No parameters to configure...
+</span>

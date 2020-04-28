@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {DataFile} from '../classes/DataFile';
 import {AudioFile} from '../classes/AudioFile';
 import {DataPlugin} from '../classes/DataPlugin';
+import {environment} from '../../environments/environment';
+import {CustomStorage} from '../utils/CustomStorage';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class RestService {
   pluginsUrl = 'plugins';
 
   public static getStaticFileUrl(url) {
-    return `http://127.0.0.1:5000${url}`;
+    return `${environment.apiUrl}${url}`;
   }
 
   getDataFiles() {
@@ -31,8 +33,8 @@ export class RestService {
     return this.http.get<DataPlugin[]>(this.pluginsUrl);
   }
 
-  applyPlugin(pluginName, filename) {
-    return this.http.get<DataFile>(`${this.pluginsUrl}/${pluginName}/${filename}`);
+  applyPlugin(pluginName, filename, params) {
+    return this.http.post<DataFile>(`${this.pluginsUrl}/${pluginName}/${filename}`, params);
   }
 
   loadAudioFile(filename, sr: number = null) {

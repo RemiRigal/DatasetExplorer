@@ -1,9 +1,9 @@
 <mat-card (appDeferLoad)="loadPreview($event)">
   <mat-card-header>
 
-    <mat-icon mat-card-avatar color="primary" *ngIf="isAudio()">audiotrack</mat-icon>
-    <mat-icon mat-card-avatar color="primary" *ngIf="isImage()">image</mat-icon>
-    <mat-icon mat-card-avatar color="primary" *ngIf="isVideo()">videocam</mat-icon>
+    <mat-icon mat-card-avatar color="primary" *ngIf="isAudio()">{{getTypeIcon(file.icon)}}</mat-icon>
+    <mat-icon mat-card-avatar color="primary" *ngIf="isImage()">{{getTypeIcon(file.icon)}}</mat-icon>
+    <mat-icon mat-card-avatar color="primary" *ngIf="isVideo()">{{getTypeIcon(file.icon)}}</mat-icon>
 
     <mat-card-title class="ellipsis">{{file.name}}</mat-card-title>
     <mat-card-subtitle>Type: {{file.type}} {{file.ext ? '(' + file.ext + ')' : ''}} - {{file.size ? (file.size / (1024 * 1024)).toFixed(2) : '-'}} MB</mat-card-subtitle>

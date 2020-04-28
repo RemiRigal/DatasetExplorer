@@ -45,7 +45,8 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
     const tempFile = new DataFile(plugin.className, plugin.name, 0, '', plugin.outType, '');
     const count = this.processed.push(tempFile);
     this.processedIndex.set(plugin.name, count - 1);
-    this.rs.applyPlugin(plugin.className, this.file.name).subscribe((response) => {
+    const params = CustomStorage.getPluginParams(plugin.className);
+    this.rs.applyPlugin(plugin.className, this.file.name, params).subscribe((response) => {
       this.processed.splice(this.processedIndex.get(plugin.name), 1, response);
     });
   }

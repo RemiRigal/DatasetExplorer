@@ -36,3 +36,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: h
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   background-color: mat-color($primary);
 }
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  &.processor-overlay-backdrop {
+    position: absolute;
+    top: 64px;
+    right: 0;
+    left: 250px;
+    bottom: 0;
+    background: black;
+    opacity: 0.5 !important;
+  }
+}

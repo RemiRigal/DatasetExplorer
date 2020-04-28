@@ -7,10 +7,13 @@ from scipy.signal import stft
 from matplotlib.figure import Figure
 from dataset_explorer.filetypes import FileType
 from dataset_explorer.plugins.base import AudioPlugin
+from dataset_explorer.plugins.parameters import PluginParameter
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
 class STFTPlugin(AudioPlugin):
+
+    nfft = PluginParameter("nfft", 2048)
 
     def __init__(self):
         super(STFTPlugin, self).__init__("STFT", FileType.IMAGE, icon="bar_chart", outExtension="png")

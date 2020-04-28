@@ -4,13 +4,26 @@
 import cv2
 from dataset_explorer.filetypes import FileType
 from dataset_explorer.plugins.base import ImagePlugin
+from dataset_explorer.plugins.parameters import PluginParameter
 
 
 class BlackAndWhitePlugin(ImagePlugin):
 
+    binary = PluginParameter("Binary", False)
+    binaryThreshold = PluginParameter("Binary Threshold", 0.5)
+
     def __init__(self):
-        super(BlackAndWhitePlugin, self).__init__("Black & White", FileType.IMAGE, "invert_colors")
+        super(BlackAndWhitePlugin, self).__init__("Black & White", FileType.IMAGE, icon="invert_colors")
 
     def process(self, data, outFilename, **kwargs):
         bw = cv2.cvtColor(data, cv2.COLOR_BGR2GRAY)
+        if self.binary.value:
+            threshold = max(0, min(1, self.binaryThreshold.value))
+            maxValue = 255
+            _, bw = cv2.threshold(bw, int(maxValue * threshold), maxValue, cv2.THRESH_BINARY)
         cv2.imwrite(outFilename, bw)
+
+
+if __name__ == "__main__":
+    plugin = BlackAndWhitePlugin()
+    print(plugin.parameters)

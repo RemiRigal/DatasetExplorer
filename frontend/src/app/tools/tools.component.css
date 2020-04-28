@@ -1,0 +1,27 @@
+.main-content {
+  height: calc(100vh - 64px);
+}
+
+::ng-deep mat-tab-body {
+  padding-top: 20px;
+}
+
+mat-expansion-panel {
+  margin: 0 20px 0 20px;
+}
+
+mat-panel-title {
+  max-width: 300px;
+}
+
+.tab-icon {
+  margin-right: 8px;
+}
+
+.description-icon {
+  margin-right: 4px;
+}
+
+.plugin-panel-content {
+  margin-left: 20px;
+}

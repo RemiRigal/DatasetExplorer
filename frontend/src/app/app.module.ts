@@ -7,7 +7,6 @@ import {RestService} from './api/rest.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {HeaderComponent} from './header/header.component';
-import {SidebarComponent} from './sidebar/sidebar.component';
 import {BrowserComponent} from './browser/browser.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MatButtonModule} from '@angular/material/button';
@@ -30,23 +29,35 @@ import {FormsModule} from '@angular/forms';
 import {MatSliderModule} from '@angular/material/slider';
 import {DeferLoadDirective} from './directives/defer-load.directive';
 import {DatafileCardComponent, DatafilePreviewImageDialogComponent} from './datafile-card/datafile-card.component';
-import {ToolbarComponent} from './toolbar/toolbar.component';
+import {ProcessorToolsSidebarComponent} from './processor-tools-sidebar/processor-tools-sidebar.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {FooterComponent} from './footer/footer.component';
 import {VirtualScrollerModule} from 'ngx-virtual-scroller';
+import {ProcessorInfoSidebarComponent} from './processor-info-sidebar/processor-info-sidebar.component';
+import {ToolsComponent} from './tools/tools.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {ToolsParametersComponent} from './tools-parameters/tools-parameters.component';
+import {ProcessorToolsOverlayComponent} from './processor-tools-overlay/processor-tools-overlay.component';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {ProcessorToolsOverlayService} from './processor-tools-overlay/processor-tools-overlay.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SidebarComponent,
     BrowserComponent,
     ProcessorComponent,
     DeferLoadDirective,
     DatafileCardComponent,
     DatafilePreviewImageDialogComponent,
-    ToolbarComponent,
-    FooterComponent
+    ProcessorToolsSidebarComponent,
+    FooterComponent,
+    ProcessorInfoSidebarComponent,
+    ToolsComponent,
+    ToolsParametersComponent,
+    ProcessorToolsOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +82,11 @@ import {VirtualScrollerModule} from 'ngx-virtual-scroller';
     FormsModule,
     MatSliderModule,
     MatRadioModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatCheckboxModule,
+    OverlayModule
   ],
   providers: [
     RestService,
@@ -79,7 +94,8 @@ import {VirtualScrollerModule} from 'ngx-virtual-scroller';
       provide: HTTP_INTERCEPTORS,
       useClass: APIInterceptor,
       multi: true,
-    }
+    },
+    ProcessorToolsOverlayService
   ],
   bootstrap: [AppComponent]
 })

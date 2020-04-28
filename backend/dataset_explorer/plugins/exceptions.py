@@ -13,3 +13,6 @@ class ProcessError(PluginError):
 
 class OutputFileNotFound(PluginError):
     """Raised when the output file of a plugin does not exist"""
+
+class InvalidParameter(PluginError):
+    """Raised when an invalid parameter is passed to a Plugin instance"""

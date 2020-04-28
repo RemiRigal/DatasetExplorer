@@ -1,32 +1,17 @@
 <mat-sidenav-container class="processor-container">
 
   <mat-sidenav opened mode="side" style="width: 250px">
-    <app-toolbar *ngIf="file" [dataFileType]="file.type" (process)="onProcess($event)"></app-toolbar>
+    <app-processor-tools-sidebar *ngIf="file" [dataFileType]="file.type" (process)="onProcess($event)"></app-processor-tools-sidebar>
   </mat-sidenav>
-<!--  <mat-sidenav opened mode="side" position="end">End content</mat-sidenav>-->
+<!--  <mat-sidenav opened mode="side" position="end" style="width: 250px">-->
+<!--    <app-processor-info-sidebar *ngIf="file"></app-processor-info-sidebar>-->
+<!--  </mat-sidenav>-->
 
   <mat-sidenav-content>
     <div class="datafile-container">
-
-<!--      <div style="{{'width: ' + cardWidth + '%'}}" class="datafile-grid">-->
-<!--        <app-datafile-card *ngIf="file" [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>-->
-<!--      </div>-->
-
       <div *ngFor="let processedFile of processed" style="{{'width: calc(' + (cardWidth) + '% - 14px)'}}" class="datafile-grid">
         <app-datafile-card [file]="processedFile" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>
       </div>
-
-<!--      <div fxLayout="row wrap" fxLayoutAlign="flex-start" fxLayoutGap="14px grid" class="datafile-grid">-->
-
-<!--        <div fxFlex="1 1 calc({{cardWidth}}%)">-->
-<!--          <app-datafile-card *ngIf="file" [file]="file" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>-->
-<!--        </div>-->
-
-<!--        <div *ngFor="let processedFile of processed" fxFlex="1 1 calc({{cardWidth}}%)">-->
-<!--          <app-datafile-card [file]="processedFile" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>-->
-<!--        </div>-->
-
-<!--      </div>-->
     </div>
 
     <app-footer [fileCount]="1 + processed.length" [left]="250" [(height)]="cardHeight" [(width)]="cardWidth"></app-footer>

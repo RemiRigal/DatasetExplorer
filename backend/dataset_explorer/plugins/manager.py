@@ -23,15 +23,17 @@ class PluginManager(object):
         self.plugins = self._discoverPlugins()
         self.staticDirectory = tempfile.mkdtemp()
 
-    def applyPlugin(self, className, filename, **kwargs):
+    def applyPlugin(self, className, filename, params):
         plugin = self.plugins[className]
         fileDirectory = os.path.join(self.staticDirectory, os.path.basename(filename))
         if not os.path.exists(fileDirectory):
             os.makedirs(fileDirectory)
         processedFileName = self.getPluginFile(className, filename)
-        if not os.path.exists(processedFileName):
+        invalidate = plugin.setParameterValues(params)
+        print(f"Invalidate: {invalidate}")
+        if invalidate or not os.path.exists(processedFileName):
             try:
-                plugin(filename, processedFileName, **kwargs)
+                plugin(filename, processedFileName)
             except Exception as e:
                 raise ProcessError("Error in plugin {} during processing".format(className), e)
             if not os.path.exists(processedFileName):

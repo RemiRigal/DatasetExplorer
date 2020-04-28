@@ -10,7 +10,7 @@ declare var WaveSurfer: any;
   templateUrl: './datafile-card.component.html',
   styleUrls: ['./datafile-card.component.css']
 })
-export class DatafileCardComponent implements AfterViewInit {
+export class DatafileCardComponent {
 
   @Input() file: DataFile;
   @Input() waveSurferBarWidth = 2;
@@ -19,11 +19,9 @@ export class DatafileCardComponent implements AfterViewInit {
   cardHeightValue: number;
   cardWidthValue: number;
 
-  constructor(public dialog: MatDialog) { }
+  getTypeIcon = DataFile.getTypeIcon;
 
-  ngAfterViewInit() {
-    // this.loadPreview(true);
-  }
+  constructor(public dialog: MatDialog) { }
 
   @Input()
   get cardHeight() {

@@ -10,6 +10,7 @@ import {CustomStorage} from '../utils/CustomStorage';
 export class FooterComponent implements OnInit {
 
   @Input() left = 0;
+  @Input() right = 0;
   @Input() fileCount = 0;
   @Output() heightChange = new EventEmitter<number>();
   @Output() widthChange = new EventEmitter<number>();

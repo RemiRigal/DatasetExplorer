@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {RestService} from '../api/rest.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,5 @@ export class HeaderComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void { }
 }

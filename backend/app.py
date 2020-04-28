@@ -53,19 +53,20 @@ class AudioDataFile(Resource):
 
 class Plugins(Resource):
 
-    def get(self, name=None, filename=None):
-        if name is None:
-            return pluginManager.getAvailablePlugins()
-        kwargs = dict()
+    def get(self):
+        return pluginManager.getAvailablePlugins()
+
+    def post(self, name, filename):
+        params = request.json or dict()
         filePath = os.path.join(root, filename)
-        return pluginManager.applyPlugin(name, filePath, **kwargs)
+        return pluginManager.applyPlugin(name, filePath, params)
 
 
 class ProcessedFile(Resource):
 
     def get(self, name, filename):
         filePath = os.path.join(root, filename)
-        return send_file(pluginManager.getPluginFile(name, filePath))
+        return send_file(pluginManager.getPluginFile(name, filePath), cache_timeout=0)
 
 
 api.add_resource(StaticFile, "/static/<path:path>")

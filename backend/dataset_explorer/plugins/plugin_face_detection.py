@@ -6,12 +6,16 @@ import cv2
 import dlib
 from dataset_explorer.filetypes import FileType
 from dataset_explorer.plugins.base import ImagePlugin
+from dataset_explorer.plugins.parameters import PluginParameter
 
 
 class FaceDetectionPlugin(ImagePlugin):
 
+    resize = PluginParameter("Resize Image", False)
+    resizeFactor = PluginParameter("Resize Factor", 0.5)
+
     def __init__(self):
-        super(FaceDetectionPlugin, self).__init__("Face Detection", FileType.IMAGE, "tag_faces")
+        super(FaceDetectionPlugin, self).__init__("Face Detection", FileType.IMAGE, icon="tag_faces")
         self.faceDetector = None
 
     def load(self):
@@ -19,6 +23,8 @@ class FaceDetectionPlugin(ImagePlugin):
         self.faceDetector = dlib.cnn_face_detection_model_v1(faceDetectorData)
 
     def process(self, data, outFilename, **kwargs):
+        if self.resize.value:
+            data = cv2.resize(data, (0, 0), fx=self.resizeFactor.value, fy=self.resizeFactor.value)
         allBoundingBoxes = self.faceDetector(data, 1)
         for boundingBox in allBoundingBoxes:
             bb = boundingBox.rect

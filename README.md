@@ -6,7 +6,8 @@ A web tool for local dataset browsing and processing developped using the Flask 
 ## Features
 
 Dataset Explorer provides the following features:
-   - Light weight and web-based (local server)
+   - Web-based (local server)
+   - Light weight and powerful (handle 100k+ files like a breeze)
    - Easy visualization of data
    - Plugin-based tool system for easy data processing
 
