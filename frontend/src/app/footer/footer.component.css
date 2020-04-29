@@ -14,6 +14,10 @@
   padding: 0;
 }
 
+.divider {
+  margin: 0 8px 0 6px;
+}
+
 ::ng-deep .mat-accent .mat-slider-thumb {
   height: 16px;
   width: 16px;

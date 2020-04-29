@@ -11,20 +11,20 @@
 
   <div *ngIf="file.url !== ''">
     <!--  Audio  -->
-    <div id="waveform_{{file.id}}" *ngIf="isAudio()" style="{{'height: ' + cardHeight + 'px'}}"></div>
+    <div id="waveform_{{file.id}}" *ngIf="isAudio()" [style.height.px]="cardHeight"></div>
     <!--  Image  -->
-    <div id="image_{{file.id}}" class="image-container" style="{{'height: ' + cardHeight + 'px'}}" *ngIf="isImage()" (click)="openImageDialog()">
-      <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" style="{{'height: ' + (cardHeight - 4) + 'px'}}" *ngIf="file.loadPreview"/>
+    <div id="image_{{file.id}}" class="image-container" [style.height.px]="cardHeight" *ngIf="isImage()" (click)="openImageDialog()">
+      <img alt="centered image" src="{{getImageUrl()}}" class="image-preview" [style.height.px]="cardHeight - 4" *ngIf="file.loadPreview"/>
     </div>
     <!--  Video  -->
-    <div id="video_{{file.id}}" class="video-container" *ngIf="isVideo()" style="{{'height: ' + cardHeight + 'px'}}">
-      <video class="video-preview" preload="metadata" controls style="{{'max-height: ' + cardHeight}}" *ngIf="file.loadPreview">
+    <div id="video_{{file.id}}" class="video-container" *ngIf="isVideo()" [style.height.px]="cardHeight">
+      <video class="video-preview" preload="metadata" controls [style.height.px]="cardHeight" *ngIf="file.loadPreview">
         <source src="{{getVideoUrl()}}" type="video/mp4"/>
       </video>
     </div>
   </div>
 
-  <div *ngIf="file.url === ''" class="spinner-container" style="{{'height: ' + cardHeight + 'px'}}">
+  <div *ngIf="file.url === ''" class="spinner-container" [style.height.px]="cardHeight">
     <mat-progress-spinner class="spinner" color="primary" mode="indeterminate" diameter="40" strokeWidth="3"></mat-progress-spinner>
   </div>
 
