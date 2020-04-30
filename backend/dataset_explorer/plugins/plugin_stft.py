@@ -14,20 +14,24 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 class STFTPlugin(AudioPlugin):
 
     nfft = PluginParameter("nfft", 2048)
+    segmentLengthMs = PluginParameter("Segment Length (ms)", 25)
+    overlapMs = PluginParameter("Segment Overlap (ms)", 15)
+    powerLaw = PluginParameter("Power Law", 0.3)
 
     def __init__(self):
         super(STFTPlugin, self).__init__("STFT", FileType.IMAGE, icon="bar_chart", outExtension="png")
 
-    def process(self, data, outFilename, **kwargs):
-        sr = kwargs.get("sr")
-        nfft = kwargs.get("nfft", 2048)
-        nperseg = int(0.025 * sr)
-        noverlap = int(0.015 * sr)
-        f, t, audioSTFT = stft(data, fs=sr, nperseg=nperseg, noverlap=noverlap, nfft=nfft, boundary=None)
+    def process(self, data, outFilename):
+        print(self.sr.value)
+        print(data.shape)
+        nfft = self.nfft.value
+        nperseg = int(self.segmentLengthMs.value * self.sr.value / 1000.0)
+        noverlap = int(self.overlapMs.value * self.sr.value / 1000.0)
+        f, t, audioSTFT = stft(data, fs=self.sr.value, nperseg=nperseg, noverlap=noverlap, nfft=nfft, boundary=None)
         figure = Figure(dpi=200)
         canvas = FigureCanvas(figure)
         axis = figure.gca()
-        axis.pcolormesh(t, f, np.power(np.abs(audioSTFT), 0.3))
+        axis.pcolormesh(t, f, np.power(np.abs(audioSTFT), self.powerLaw.value))
         canvas.draw()
         width, height = figure.get_size_inches() * figure.get_dpi()
         image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8').reshape(int(height), int(width), 3)

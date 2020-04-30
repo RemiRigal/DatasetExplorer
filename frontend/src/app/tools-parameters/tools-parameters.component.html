@@ -6,6 +6,6 @@
   <mat-checkbox [(ngModel)]="plugin.parameters[j].value" *ngIf="parameter.type === 'bool'" (change)="setParameter(plugin.className, parameter, $event.checked)">{{parameter.name}}</mat-checkbox>
 </div>
 
-<span *ngIf="plugin.parameters.length === 0">
+<span *ngIf="plugin.parameters.length === 0" class="plugin-param-container no-param">
   No parameters to configure...
 </span>

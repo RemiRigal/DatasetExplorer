@@ -15,7 +15,7 @@ class BlackAndWhitePlugin(ImagePlugin):
     def __init__(self):
         super(BlackAndWhitePlugin, self).__init__("Black & White", FileType.IMAGE, icon="invert_colors")
 
-    def process(self, data, outFilename, **kwargs):
+    def process(self, data, outFilename):
         bw = cv2.cvtColor(data, cv2.COLOR_BGR2GRAY)
         if self.binary.value:
             threshold = max(0, min(1, self.binaryThreshold.value))

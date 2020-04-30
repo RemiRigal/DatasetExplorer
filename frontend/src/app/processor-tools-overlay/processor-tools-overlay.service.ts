@@ -25,6 +25,7 @@ export class ProcessorToolsOverlayService {
         originY: 'top',
         overlayX: 'start',
         overlayY: 'top',
+        offsetX: 1
     }]);
     return this.overlay.create({
       width: '400px',

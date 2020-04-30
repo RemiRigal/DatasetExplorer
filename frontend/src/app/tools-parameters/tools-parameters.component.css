@@ -1,3 +1,8 @@
 .plugin-param-container {
   padding: 10px 0;
 }
+
+.no-param {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.5);
+}

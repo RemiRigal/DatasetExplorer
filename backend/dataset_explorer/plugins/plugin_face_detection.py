@@ -22,7 +22,7 @@ class FaceDetectionPlugin(ImagePlugin):
         faceDetectorData = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets", "mmod_human_face_detector.dat")
         self.faceDetector = dlib.cnn_face_detection_model_v1(faceDetectorData)
 
-    def process(self, data, outFilename, **kwargs):
+    def process(self, data, outFilename):
         if self.resize.value:
             data = cv2.resize(data, (0, 0), fx=self.resizeFactor.value, fy=self.resizeFactor.value)
         allBoundingBoxes = self.faceDetector(data, 1)

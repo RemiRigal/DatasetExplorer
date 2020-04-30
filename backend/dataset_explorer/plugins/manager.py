@@ -30,7 +30,6 @@ class PluginManager(object):
             os.makedirs(fileDirectory)
         processedFileName = self.getPluginFile(className, filename)
         invalidate = plugin.setParameterValues(params)
-        print(f"Invalidate: {invalidate}")
         if invalidate or not os.path.exists(processedFileName):
             try:
                 plugin(filename, processedFileName)

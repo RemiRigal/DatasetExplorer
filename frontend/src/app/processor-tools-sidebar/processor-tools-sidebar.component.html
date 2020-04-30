@@ -1,6 +1,6 @@
 <mat-nav-list>
   <h2 matSubheader>Tools</h2>
-  <a #toolsButtons mat-list-item *ngFor="let plugin of plugins; let i = index" (click)="openPluginOverlay(i)">
+  <a #toolsButtons mat-list-item *ngFor="let plugin of plugins; let i = index" (click)="openPluginOverlay(i)" [class.selected]="i === toolOverlayIndex">
     <mat-icon matListIcon>{{plugin.icon}}</mat-icon>
     {{plugin.name}}
   </a>

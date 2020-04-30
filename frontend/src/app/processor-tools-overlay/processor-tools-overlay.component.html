@@ -1,8 +1,11 @@
-<p class="title">{{plugin.name}}</p>
-<mat-divider class="title-divider"></mat-divider>
+<mat-toolbar class="overlay-header" color="accent">
+  <span>{{plugin.name}}</span>
+</mat-toolbar>
 
-<app-tools-parameters [plugin]="plugin" [params]="params"></app-tools-parameters>
+<div class="parameters-container">
+  <app-tools-parameters [plugin]="plugin" [params]="params"></app-tools-parameters>
+</div>
 
-<div class="row">
+<div class="row button-container">
   <a mat-button (click)="applyPlugin()">Apply</a>
 </div>
