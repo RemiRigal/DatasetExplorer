@@ -9,7 +9,7 @@ Dataset Explorer provides the following features:
    - Web-based (local server)
    - Light weight and powerful (handle 100k+ files like a breeze)
    - Easy visualization of data
-   - Plugin-based tool system for easy data processing
+   - Plugin-based tool system for easy custom data processing
 
 ![Browser](docs/assets/screenshots/Brower.png)
 
@@ -47,7 +47,7 @@ The frontend requires `Angular CLI v9.1.0` and `NodeJS v12.16.1`, make sure that
 ```shell script
 cd frontend
 npm install
-ng serve
+ng serve --host 0.0.0.0
 ```
 
 ### Test tool
@@ -77,7 +77,7 @@ class MyCustomPlugin(BasePlugin):
         """
         super(MyCustomPlugin, self).__init__("MyCustomPlugin", FileType.IMAGE, FileType.IMAGE)
 
-    def process(self, inFilename, outFilename, **kwargs):
+    def process(self, inFilename, outFilename):
         """
         This method is called automatically, the inFilename argument is the path to the file to process
         The outFilename is the path to the result file that must be created

@@ -1,0 +1,13 @@
+site_name: Dataset Explorer
+
+nav:
+  - Home: 'index.md'
+  - Getting Started:
+      - Using Docker: 'getting-started/docker.md'
+      - From Source: 'getting-started/from-source.md'
+  - Writing Custom Tools:
+      - Custom Tools: 'custom-tools/index.md'
+      - Guidelines: 'custom-tools/guidelines.md'
+      - Using Parameters: 'custom-tools/parameters.md'
+
+theme: readthedocs

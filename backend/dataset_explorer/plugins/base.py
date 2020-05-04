@@ -43,7 +43,7 @@ class BasePlugin(object):
         if not self._loaded:
             self.load()
             self._loaded = True
-        return self.process(inFilename, outFilename)
+        self.process(inFilename, outFilename)
 
     def load(self):
         pass
@@ -75,7 +75,7 @@ class AudioPlugin(BasePlugin):
             self._loaded = True
         loadSr = self.sr.value if self.sr.value else None
         data, self.sr.value = librosa.load(inFilename, sr=loadSr)
-        return self.process(data, outFilename)
+        self.process(data, outFilename)
 
     def process(self, data, outFilename):
         raise NotImplementedError
@@ -91,7 +91,7 @@ class ImagePlugin(BasePlugin):
             self.load()
             self._loaded = True
         data = cv2.imread(inFilename)
-        return self.process(data, outFilename)
+        self.process(data, outFilename)
 
     def process(self, data, outFilename):
         raise NotImplementedError
