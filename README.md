@@ -1,5 +1,7 @@
 # Dataset Explorer
 
+[![Documentation Status](https://readthedocs.org/projects/dataset-explorer/badge/?version=latest)](https://dataset-explorer.readthedocs.io/en/latest/?badge=latest)
+
 A web tool for local dataset browsing and processing developped using the Flask + Angular stack.
 
 
