@@ -5,9 +5,8 @@ import cv2
 import numpy as np
 from scipy.signal import stft
 from matplotlib.figure import Figure
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.plugins.base import AudioPlugin
-from dataset_explorer.plugins.parameters import PluginParameter
+from dataset_explorer.io import FileType
+from dataset_explorer.plugins import AudioPlugin, PluginParameter
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 

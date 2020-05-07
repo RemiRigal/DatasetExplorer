@@ -36,8 +36,12 @@ COPY . /app
 
 RUN mkdir /data
 
+RUN mkdir /plugins && \
+    touch /plugins/requirements.txt
+
 ENV DATASET_EXPLORER_ROOT /data
+ENV DATASET_EXPLORER_PLUGINS /plugins
 
 EXPOSE 5000
 
-CMD [ "python3.7", "app.py" ]
+CMD [ "python3.7", "-m", "pip", "install", "-r", "/plugins/requirements.txt", "&&", "python3.7", "app.py" ]

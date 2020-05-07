@@ -9,10 +9,9 @@ import importlib
 import importlib.util
 from pkgutil import walk_packages
 
-from dataset_explorer.io.datafile import DataFile
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.utils.environment import getPluginsPath
-from dataset_explorer.plugins.base import BasePlugin, AudioPlugin, ImagePlugin
+from dataset_explorer.io import DataFile, FileType
+from dataset_explorer.utils import getPluginsPath
+from dataset_explorer.plugins import BasePlugin, AudioPlugin, ImagePlugin
 from dataset_explorer.plugins.exceptions import ProcessError, OutputFileNotFound, InstantiationError
 
 
@@ -74,16 +73,3 @@ class PluginManager(object):
                     except TypeError as e:
                         raise InstantiationError("Unable to instantiate plugin {}, makes sure that it doesn't have constructor arguments".format(cls.__name__), e)
         return plugins
-
-
-if __name__ == "__main__":
-    pluginManager = PluginManager()
-
-    print("All plugins:")
-    print(pluginManager.getAvailablePlugins())
-    print("")
-    print("All plugins for audio files:")
-    print(pluginManager.getAvailablePluginsByInType(FileType.AUDIO))
-    print("")
-    print("All plugins for image files:")
-    print(pluginManager.getAvailablePluginsByInType(FileType.IMAGE))

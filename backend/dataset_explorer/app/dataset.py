@@ -3,9 +3,8 @@
 
 import os
 from collections import OrderedDict
-from dataset_explorer.io.datafile import DataFile
-from dataset_explorer.io.file_watcher import FileWatcher
-from dataset_explorer.utils.environment import getDatasetDirectory
+from dataset_explorer.io import DataFile, FileWatcher
+from dataset_explorer.utils import getDatasetDirectory
 
 
 class Dataset(object):

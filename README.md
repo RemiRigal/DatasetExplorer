@@ -68,8 +68,8 @@ Dataset Explorer allows you to write custom Python tools so that you can instant
 ```python
 # my_custom_plugin.py
 import cv2
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.plugins.base import BasePlugin
+from dataset_explorer.io import FileType
+from dataset_explorer.plugins import BasePlugin
 
 
 class MyCustomPlugin(BasePlugin):

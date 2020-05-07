@@ -9,9 +9,8 @@ Here is an example of a plugin with parameters:
 # my_custom_plugin.py
 import numpy as np
 from scipy.io import wavfile
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.plugins.base import AudioPlugin
-from dataset_explorer.plugins.parameters import PluginParameter
+from dataset_explorer.io import FileType
+from dataset_explorer.plugins import AudioPlugin, PluginParameter
 
 
 class AddNoisePlugin(AudioPlugin):
@@ -28,5 +27,5 @@ class AddNoisePlugin(AudioPlugin):
         The 'sr' parameter is defined in the AudioPlugin class, its value is the sample rate at which the audio has been loaded
         """
         noise = np.random.normal(self.mean.value, self.std.value, data.shape)
-        wavfile.write(outFilename, self.sr.value, data)
+        wavfile.write(outFilename, self.sr.value, data + noise)
 ```

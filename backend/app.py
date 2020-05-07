@@ -1,11 +1,10 @@
 # coding: utf-8
 
-import os
 from flask_cors import CORS
-from dataset_explorer.app.dataset import Dataset
-from dataset_explorer.plugins.manager import PluginManager
-from dataset_explorer.utils.environment import getDatasetDirectory
-from flask import Flask, request, send_file, send_from_directory, abort, jsonify
+from dataset_explorer.app import Dataset
+from dataset_explorer.plugins import PluginManager
+from dataset_explorer.utils import getDatasetDirectory
+from flask import Flask, request, send_from_directory, abort, jsonify
 
 
 root = getDatasetDirectory()

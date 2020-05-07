@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import os
-from dataset_explorer.utils.exceptions import DatasetDirectoryError
+from . import DatasetDirectoryError
 
 
 def getDatasetDirectory():

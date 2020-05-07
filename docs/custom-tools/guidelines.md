@@ -15,8 +15,8 @@ The simplest tool looks like this:
 ```python
 # my_custom_plugin.py
 import cv2
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.plugins.base import BasePlugin
+from dataset_explorer.io import FileType
+from dataset_explorer.plugins import BasePlugin
 
 
 class MyCustomPlugin(BasePlugin):
@@ -52,8 +52,8 @@ Here is the above tool refactored to inherit from the `ImagePlugin` class.
 ```python
 # my_custom_plugin.py
 import cv2
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.plugins.base import ImagePlugin
+from dataset_explorer.io import FileType
+from dataset_explorer.plugins import ImagePlugin
 
 
 class MyCustomPlugin(ImagePlugin):
@@ -90,8 +90,8 @@ It is important that such operations are defined in the `load` function instead 
 ```python
 # my_custom_ai_plugin.py
 import cv2
-from dataset_explorer.io.filetypes import FileType
-from dataset_explorer.plugins.base import BasePlugin
+from dataset_explorer.io import FileType
+from dataset_explorer.plugins import BasePlugin
 from my_deep_learning_model import DeepLearningModel
 
 

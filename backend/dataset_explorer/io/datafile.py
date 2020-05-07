@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import os
-from dataset_explorer.io.filetypes import FileType
+from . import FileType
 
 
 class DataFile(object):

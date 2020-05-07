@@ -9,5 +9,29 @@ nav:
       - Custom Tools: 'custom-tools/index.md'
       - Guidelines: 'custom-tools/guidelines.md'
       - Using Parameters: 'custom-tools/parameters.md'
+      - Tools API: 'custom-tools/api.md'
 
-theme: readthedocs
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_source: true
+            show_object_full_path: false
+            show_root_heading: false
+            show_root_toc_entry: false
+      watch:
+        - backend/
+
+extra_css:
+  - assets/stylesheets/docs.css
