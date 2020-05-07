@@ -30,7 +30,7 @@ export class ProcessorComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.rs.getDataFile(this.filename).subscribe(
       (response) => {
-        this.file = response[0];
+        this.file = response;
         this.processed.push(this.file);
       },
       (error) => {

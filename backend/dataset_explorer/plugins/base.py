@@ -4,9 +4,8 @@
 import cv2
 import librosa
 import collections
-from dataset_explorer.filetypes import FileType
+from dataset_explorer.io.filetypes import FileType
 from dataset_explorer.plugins.parameters import PluginParameter
-from dataset_explorer.plugins.exceptions import InvalidParameter
 
 
 class BasePlugin(object):
@@ -17,8 +16,14 @@ class BasePlugin(object):
         self.outType = outType
         self.parameters = self._retrieveParameters(self.__class__, list())
         self.icon = icon
-        self.outExtension = outExtension
+        self._outExtension = outExtension.replace(".", "")
         self._loaded = False
+
+    @property
+    def outExtension(self):
+        if self._outExtension:
+            return f".{self._outExtension}"
+        return FileType.getDefaultExtension(self.outType)
 
     def _retrieveParameters(self, cls, parameters):
         if cls == BasePlugin:
@@ -30,14 +35,17 @@ class BasePlugin(object):
         return self._retrieveParameters(cls.__base__, parameters)
 
     def setParameterValues(self, params):
-        updated = False
-        for name, parameter in self.parameters.items():
-            if name in params and params[name] != parameter.value:
-                updated = True
-                parameter.value = params[name]
-            else:
-                parameter.reset()
-        return updated
+        for parameter in self.parameters.values():
+            parameter.reset()
+        for name, value in params.items():
+            self.parameters[name].value = value
+
+    def getFileHash(self, dataFile, params):
+        parametersCopy = {name: parameter.value for name, parameter in self.parameters.items()}
+        parametersCopy.update(params)
+        parametersCopy["__datafile"] = dataFile.id
+        parametersCopy["__plugin"] = self.name
+        return hash(frozenset(parametersCopy.items()))
 
     def __call__(self, inFilename, outFilename):
         if not self._loaded:

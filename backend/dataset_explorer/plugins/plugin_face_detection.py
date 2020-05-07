@@ -4,7 +4,7 @@
 import os
 import cv2
 import dlib
-from dataset_explorer.filetypes import FileType
+from dataset_explorer.io.filetypes import FileType
 from dataset_explorer.plugins.base import ImagePlugin
 from dataset_explorer.plugins.parameters import PluginParameter
 

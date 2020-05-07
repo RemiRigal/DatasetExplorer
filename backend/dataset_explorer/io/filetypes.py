@@ -19,15 +19,33 @@ class FileType(Enum):
         ext = ext.lower()
         return _EXT_TO_TYPE.get(ext, FileType.MISC)
 
+    @staticmethod
+    def getDefaultExtension(fileType):
+        if fileType == FileType.AUDIO:
+            return ".wav"
+        elif fileType == FileType.IMAGE:
+            return ".png"
+        elif fileType == FileType.TEXT:
+            return ".txt"
+        elif fileType == FileType.VIDEO:
+            return ".mp4"
+        return ""
+
 
 _EXT_TO_TYPE = {
+    "": FileType.MISC,
     ".wav": FileType.AUDIO,
     ".mp3": FileType.AUDIO,
+    ".flac": FileType.AUDIO,
     ".png": FileType.IMAGE,
     ".jpg": FileType.IMAGE,
     ".jpeg": FileType.IMAGE,
     ".txt": FileType.TEXT,
-    ".mp4": FileType.VIDEO
+    ".sh": FileType.TEXT,
+    ".xml": FileType.TEXT,
+    ".mp4": FileType.VIDEO,
+    ".mkv": FileType.VIDEO,
+    ".avi": FileType.VIDEO
 }
 
 

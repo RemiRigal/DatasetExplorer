@@ -15,6 +15,11 @@ Dataset Explorer provides the following features:
 
 ![Browser](docs/assets/screenshots/Brower.png)
 
+## Documentation
+
+Documentation is hosted on [Read The Docs](https://dataset-explorer.readthedocs.io/en/latest).
+
+
 ## Getting Started
 
 ### Using Docker
@@ -63,7 +68,7 @@ Dataset Explorer allows you to write custom Python tools so that you can instant
 ```python
 # my_custom_plugin.py
 import cv2
-from dataset_explorer.filetypes import FileType
+from dataset_explorer.io.filetypes import FileType
 from dataset_explorer.plugins.base import BasePlugin
 
 

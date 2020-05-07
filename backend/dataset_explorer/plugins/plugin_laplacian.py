@@ -2,7 +2,7 @@
 # coding: utf-8
 
 import cv2
-from dataset_explorer.filetypes import FileType
+from dataset_explorer.io.filetypes import FileType
 from dataset_explorer.plugins.base import ImagePlugin
 
 

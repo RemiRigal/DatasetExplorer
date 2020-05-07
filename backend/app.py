@@ -1,82 +1,60 @@
 # coding: utf-8
 
 import os
-import librosa
-from flask import Flask, request, send_file, send_from_directory
-from flask_restful import Resource, Api
 from flask_cors import CORS
-from dataset_explorer.filetypes import FileType
+from dataset_explorer.app.dataset import Dataset
 from dataset_explorer.plugins.manager import PluginManager
+from dataset_explorer.utils.environment import getDatasetDirectory
+from flask import Flask, request, send_file, send_from_directory, abort, jsonify
 
 
-root = os.getenv("DATASET_EXPLORER_ROOT", "")
+root = getDatasetDirectory()
 pluginManager = PluginManager()
+dataset = Dataset()
 
 app = Flask(__name__, static_url_path="")
 CORS(app)
-api = Api(app)
 
 
-class StaticFile(Resource):
+####################################### Static Files #######################################
 
-    def get(self, path):
-        if os.path.exists(os.path.join(root, path)):
-            return send_from_directory(root, path)
-        return []
+@app.route("/static/<path:path>", methods=["GET"])
+def getStaticFile(path):
+    return send_from_directory(root, path)
 
-
-class DataFiles(Resource):
-
-    def get(self, filename=None):
-        fileList = []
-        if filename is not None and os.path.exists(os.path.join(root, filename)):
-            fileList = [filename]
-        elif filename is None:
-            fileList = os.listdir(root)
-        return [{
-            "id": name.split(".")[0],
-            "name": name,
-            "size": os.path.getsize(os.path.join(root, name)),
-            "ext": name.split(".")[-1],
-            "type": FileType.getFileType(name).value,
-            "url": "/static/{}".format(name)
-        } for name in sorted(fileList)]
+@app.route("/plugins/static/<path:filename>", methods=["GET"])
+def getStaticProcessedFile(filename):
+    return send_from_directory(pluginManager.staticDirectory, filename)
 
 
-class AudioDataFile(Resource):
+####################################### Data Files #######################################
 
-    def get(self, filename):
-        targetSampleRate = request.args.get("sr", default=None, type=int)
-        wave, sr = librosa.load(os.path.join(root, filename), sr=targetSampleRate)
-        return {"name": filename, "wave": wave.tolist(), "sr": sr}
+@app.route("/datafiles", methods=["GET"])
+def getDataFiles():
+    return jsonify(dataset.getAll())
+
+@app.route("/datafiles/<path:filename>", methods=["GET"])
+def getDataFile(filename):
+    dataFile = dataset.get(filename)
+    if dataFile is not None:
+        return dataFile.toJson()
+    return abort(404)
 
 
-class Plugins(Resource):
+####################################### Plugins #######################################
 
-    def get(self):
-        return pluginManager.getAvailablePlugins()
+@app.route("/plugins", methods=["GET"])
+def getPlugins():
+    return jsonify(pluginManager.getAvailablePlugins())
 
-    def post(self, name, filename):
+@app.route("/plugins/<string:pluginName>/<path:filename>", methods=["POST"])
+def applyPlugin(pluginName, filename):
+    dataFile = dataset.get(filename)
+    if dataFile is not None:
         params = request.json or dict()
-        filePath = os.path.join(root, filename)
-        return pluginManager.applyPlugin(name, filePath, params)
-
-
-class ProcessedFile(Resource):
-
-    def get(self, name, filename):
-        filePath = os.path.join(root, filename)
-        return send_file(pluginManager.getPluginFile(name, filePath), cache_timeout=0)
-
-
-api.add_resource(StaticFile, "/static/<path:path>")
-api.add_resource(DataFiles, "/datafiles", endpoint="datafiles")
-api.add_resource(DataFiles, "/datafiles/<path:filename>", endpoint="datafile")
-api.add_resource(AudioDataFile, "/datafile/audio/<path:filename>")
-api.add_resource(Plugins, "/plugins", endpoint="plugins")
-api.add_resource(ProcessedFile, "/plugins/static/<string:name>/<path:filename>")
-api.add_resource(Plugins, "/plugins/<string:name>/<path:filename>", endpoint="plugin")
+        return pluginManager.applyPlugin(pluginName, dataFile, params).toJson()
+    return abort(404)
 
 
 if __name__ == "__main__":
-     app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0")

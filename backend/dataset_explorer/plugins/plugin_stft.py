@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from scipy.signal import stft
 from matplotlib.figure import Figure
-from dataset_explorer.filetypes import FileType
+from dataset_explorer.io.filetypes import FileType
 from dataset_explorer.plugins.base import AudioPlugin
 from dataset_explorer.plugins.parameters import PluginParameter
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -22,8 +22,6 @@ class STFTPlugin(AudioPlugin):
         super(STFTPlugin, self).__init__("STFT", FileType.IMAGE, icon="bar_chart", outExtension="png")
 
     def process(self, data, outFilename):
-        print(self.sr.value)
-        print(data.shape)
         nfft = self.nfft.value
         nperseg = int(self.segmentLengthMs.value * self.sr.value / 1000.0)
         noverlap = int(self.overlapMs.value * self.sr.value / 1000.0)
@@ -34,5 +32,5 @@ class STFTPlugin(AudioPlugin):
         axis.pcolormesh(t, f, np.power(np.abs(audioSTFT), self.powerLaw.value))
         canvas.draw()
         width, height = figure.get_size_inches() * figure.get_dpi()
-        image = np.frombuffer(canvas.tostring_rgb(), dtype='uint8').reshape(int(height), int(width), 3)
+        image = np.frombuffer(canvas.tostring_rgb(), dtype="uint8").reshape(int(height), int(width), 3)
         cv2.imwrite(outFilename, image[:, :, ::-1])

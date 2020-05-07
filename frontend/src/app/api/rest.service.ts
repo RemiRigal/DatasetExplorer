@@ -26,7 +26,7 @@ export class RestService {
   }
 
   getDataFile(filename) {
-    return this.http.get<DataFile[]>(`${this.dataFilesUrl}/${filename}`);
+    return this.http.get<DataFile>(`${this.dataFilesUrl}/${filename}`);
   }
 
   getPlugins() {
