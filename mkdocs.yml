@@ -1,4 +1,7 @@
-site_name: Dataset Explorer
+site_name: 'Dataset Explorer'
+site_url: 'https://remirigal.github.io/DatasetExplorer'
+repo_url: 'https://github.com/RemiRigal/DatasetExplorer'
+repo_name: 'RemiRigal/DatasetExplorer'
 
 nav:
   - Home: 'index.md'
