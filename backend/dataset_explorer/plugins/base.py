@@ -139,7 +139,7 @@ class BasePlugin(object):
         """
         raise NotImplementedError
 
-    def toJson(self):
+    def toJson(self) -> dict:
         """
         Generates and returns the JSON representation of the plugin.
 
