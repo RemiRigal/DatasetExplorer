@@ -13,6 +13,7 @@ nav:
       - Guidelines: 'custom-tools/guidelines.md'
       - Using Parameters: 'custom-tools/parameters.md'
       - Tools API: 'custom-tools/api.md'
+  - Contributing: 'contributing.md'
 
 theme:
   name: material
