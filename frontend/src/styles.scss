@@ -6,6 +6,15 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; }
 
+
+.primary {
+  color: mat-color($primary);
+}
+
+.accent {
+  color: mat-color($accent);
+}
+
 .center {
   align-items: center !important;
   justify-content: center !important;
@@ -47,4 +56,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: h
     background: black;
     opacity: 0.5 !important;
   }
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.no-padding {
+  padding: 0 !important;
 }

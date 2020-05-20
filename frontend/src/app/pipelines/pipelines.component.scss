@@ -1,0 +1,100 @@
+@import "../../assets/themes/main";
+
+
+.pipelines-container {
+  height: calc(100vh - 64px);
+}
+
+.empty-editor-overlay-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 500;
+}
+
+.empty-editor-load-tip {
+  display: flex;
+  align-items: baseline;
+  position: absolute;
+  top: 70px;
+  left: 68px;
+}
+
+.empty-editor-load-tip-arrow {
+  transform: scale(-1) rotate(200deg);
+  width: 60px;
+}
+
+.empty-editor-card-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-editor-message {
+  margin-bottom: 24px;
+  color: white;
+  text-align: center;
+}
+
+.load-tip-message {
+  margin-left: 6px;
+  font-size: 120%;
+}
+
+.big-font {
+  font-size: 180%;
+}
+
+.empty-editor-card {
+  width: 140px;
+  margin: 12px;
+}
+
+.editor-button-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: calc(100% - 24px);
+  vertical-align: center;
+  z-index: 1000;
+}
+
+.editor-button {
+  width: 36px !important;
+  min-width: unset !important;
+  height: 36px;
+  padding: 0;
+  margin-right: 8px;
+  vertical-align: center;
+}
+
+.editor-button-divider {
+  margin-right: 12px;
+}
+
+.parameters-container {
+  padding: 14px 28px 14px 28px;
+}
+
+.inspector-header {
+  height: 56px;
+  color: white !important;
+}
+
+.inspector-button-container {
+  padding: 0 14px 14px 14px;
+  float: right;
+}
+
+.warning-button {
+  margin: 0;
+  color: mat-color($accent);
+}
+
+::ng-deep .mat-badge-content {
+  color: white !important;
+}

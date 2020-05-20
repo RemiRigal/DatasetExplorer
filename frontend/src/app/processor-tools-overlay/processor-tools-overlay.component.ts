@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit} from '@angular/core';
 import {OverlayRef} from '@angular/cdk/overlay';
 import {PROCESSOR_TOOLS_OVERLAY_DATA} from './processor-tools-overlay.tokens';
 import {DataPlugin} from '../classes/DataPlugin';
@@ -10,6 +10,9 @@ import {CustomStorage} from '../utils/CustomStorage';
   styleUrls: ['./processor-tools-overlay.component.css']
 })
 export class ProcessorToolsOverlayComponent implements OnInit {
+
+  @Input() selectText = 'Ok';
+  @Input() saveParams = false;
 
   constructor(private overlayRef: ProcessorToolsOverlayRef, @Inject(PROCESSOR_TOOLS_OVERLAY_DATA) public plugin: DataPlugin) {}
 

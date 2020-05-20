@@ -11,8 +11,10 @@ import {ProcessorToolsOverlayRef} from '../processor-tools-overlay/processor-too
 })
 export class ProcessorToolsSidebarComponent implements OnInit {
 
-  @Input() dataFileType: string;
-  @Output() process = new EventEmitter<DataPlugin>();
+  @Input() dataFileType: string = null;
+  @Input() selectText = 'Ok';
+  @Input() saveParams = false;
+  @Output() dataPluginClick = new EventEmitter();
 
   @ViewChildren('toolsButtons', {read: ElementRef}) toolsButtons: QueryList<ElementRef>;
 
@@ -25,9 +27,12 @@ export class ProcessorToolsSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.rs.getPlugins().subscribe(
       (response) => {
-        this.plugins = response.filter(value => {
-          return value.inType === this.dataFileType;
-        });
+        this.plugins = response;
+        if (this.dataFileType !== null) {
+          this.plugins = this.plugins.filter(value => {
+            return value.inType.length === 1 && value.inType[0] === this.dataFileType;
+          });
+        }
       },
       (error) => {
         console.log('No Plugins Found' + error);
@@ -43,12 +48,12 @@ export class ProcessorToolsSidebarComponent implements OnInit {
       this.currentToolOverlay.close();
     }
     this.toolOverlayIndex = i;
-    this.currentToolOverlay = this.processorToolsOverlay.open(this.toolsButtons.toArray()[i], this.plugins[i]);
+    this.currentToolOverlay = this.processorToolsOverlay.open(this.toolsButtons.toArray()[i], this.plugins[i], this.saveParams, this.selectText);
     this.currentToolOverlay.onClose.subscribe(_ => {
       this.toolOverlayIndex = undefined;
     });
     this.currentToolOverlay.componentInstance.onApplyPlugin.subscribe(plugin => {
-      this.process.emit(plugin);
+      this.dataPluginClick.emit(plugin);
       this.currentToolOverlay.close();
     });
   }

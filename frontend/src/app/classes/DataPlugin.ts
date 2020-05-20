@@ -4,8 +4,8 @@ export class DataPlugin {
 
   className: string;
   name: string;
-  inType: string;
-  outType: string;
+  inType: string[];
+  outType: string[];
   icon: string;
   parameters: DataPluginParameter[];
 
@@ -18,13 +18,21 @@ export class DataPlugin {
     this.parameters = parameters;
   }
 
-  public static retrieveParameters(plugin) {
+  public static setParametersFromLocalStorage(plugin) {
     const userParams = CustomStorage.getPluginParams(plugin.className);
     plugin.parameters.forEach(parameter => {
       if (parameter.attributeName in userParams) {
         parameter.value = userParams[parameter.attributeName];
       }
     });
+  }
+
+  public static getParametersObject(plugin) {
+    const params = {};
+    plugin.parameters.forEach(parameter => {
+      params[parameter.attributeName] = parameter.value;
+    });
+    return params;
   }
 }
 

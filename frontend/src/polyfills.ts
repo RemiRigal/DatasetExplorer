@@ -52,6 +52,8 @@
  *
  */
 
+import 'babel-polyfill';
+
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */

@@ -7,12 +7,16 @@ import {CustomStorage} from '../utils/CustomStorage';
   templateUrl: './tools-parameters.component.html',
   styleUrls: ['./tools-parameters.component.css']
 })
-export class ToolsParametersComponent {
+export class ToolsParametersComponent implements OnInit {
 
   @Input() plugin: DataPlugin;
-  @Input() params;
+  @Input() useLocalStorage = false;
 
-  constructor() { }
+  ngOnInit() {
+    if (this.useLocalStorage) {
+      DataPlugin.setParametersFromLocalStorage(this.plugin);
+    }
+  }
 
   setParameter(plugin, param, paramValue) {
     if (param.type === 'int') {
@@ -20,7 +24,9 @@ export class ToolsParametersComponent {
     } else if (param.type === 'float') {
       paramValue = parseFloat(paramValue);
     }
-    this.params = CustomStorage.setPluginParam(plugin, param.attributeName, paramValue);
+    if (this.useLocalStorage) {
+      CustomStorage.setPluginParam(plugin, param.attributeName, paramValue);
+    }
   }
 
   getJsType(type) {

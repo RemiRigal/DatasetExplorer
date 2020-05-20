@@ -24,12 +24,17 @@ export class ToolsComponent implements OnInit {
     this.rs.getPlugins().subscribe(
       (plugins) => {
         plugins.forEach(plugin => {
-          this.inTypes.add(plugin.inType);
-          if (!this.plugins.has(plugin.inType)) {
-            this.plugins.set(plugin.inType, []);
+          let inType;
+          if (plugin.inType.length === 1) {
+            inType = plugin.inType[0];
+          } else {
+            inType = 'Multi-Input';
           }
-          DataPlugin.retrieveParameters(plugin);
-          this.plugins.get(plugin.inType).push(plugin);
+          this.inTypes.add(inType);
+          if (!this.plugins.has(inType)) {
+            this.plugins.set(inType, []);
+          }
+          this.plugins.get(inType).push(plugin);
         });
       },
       (error) => {

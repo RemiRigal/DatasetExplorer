@@ -57,4 +57,13 @@ export class DataFile {
     }
     return 'insert_drive_file';
   }
+
+  public static types() {
+    return new Map<string, string>()
+      .set(DataFile.TYPE_MISC, 'Misc')
+      .set(DataFile.TYPE_AUDIO, 'Audio')
+      .set(DataFile.TYPE_IMAGE, 'Image')
+      .set(DataFile.TYPE_VIDEO, 'Video')
+      .set(DataFile.TYPE_TEXT, 'Text');
+  }
 }

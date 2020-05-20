@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DataFile} from '../classes/DataFile';
-import {AudioFile} from '../classes/AudioFile';
 import {DataPlugin} from '../classes/DataPlugin';
 import {environment} from '../../environments/environment';
-import {CustomStorage} from '../utils/CustomStorage';
+import {Pipeline} from '../classes/Pipeline';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +13,8 @@ export class RestService {
   constructor(private http: HttpClient) { }
 
   dataFilesUrl = 'datafiles';
-  loadAudioFileUrl = 'datafile/audio/';
   pluginsUrl = 'plugins';
+  pipelinesUrl = 'pipelines';
 
   public static getStaticFileUrl(url) {
     return `${environment.apiUrl}${url}`;
@@ -37,12 +36,19 @@ export class RestService {
     return this.http.post<DataFile>(`${this.pluginsUrl}/${pluginName}/${filename}`, params);
   }
 
-  loadAudioFile(filename, sr: number = null) {
-    let fullUrl = this.loadAudioFileUrl + filename;
-    if (sr !== null) {
-      fullUrl += '?sr=' + sr;
-    }
-    return this.http.get<AudioFile>(fullUrl);
+  getPipelines() {
+    return this.http.get<Pipeline[]>(this.pipelinesUrl);
   }
 
+  getPipeline(name: string) {
+    return this.http.get<Pipeline>(`${this.pipelinesUrl}/${name}`);
+  }
+
+  deletePipeline(name: string) {
+    return this.http.delete<Pipeline>(`${this.pipelinesUrl}/${name}`);
+  }
+
+  createPipeline(name: string, diagram: object) {
+    return this.http.put(`${this.pipelinesUrl}/${name}`, diagram);
+  }
 }

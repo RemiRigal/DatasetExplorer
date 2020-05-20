@@ -1,7 +1,12 @@
 <mat-sidenav-container class="processor-container">
 
   <mat-sidenav opened mode="side" style="width: 250px">
-    <app-processor-tools-sidebar *ngIf="file" [dataFileType]="file.type" (process)="onProcess($event)"></app-processor-tools-sidebar>
+    <app-processor-tools-sidebar *ngIf="file"
+                                 [dataFileType]="file.type"
+                                 [saveParams]="true"
+                                 [selectText]="'Apply'"
+                                 (dataPluginClick)="onProcess($event)">
+    </app-processor-tools-sidebar>
   </mat-sidenav>
 <!--  <mat-sidenav opened mode="side" position="end" style="width: 250px">-->
 <!--    <app-processor-info-sidebar *ngIf="file"></app-processor-info-sidebar>-->

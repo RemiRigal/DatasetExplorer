@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Save Pipeline</h1>
+
+<div mat-dialog-content>
+  <form>
+    <mat-form-field class="name-input-form-field">
+      <mat-label>Pipeline name</mat-label>
+      <input matInput [(ngModel)]="name" [formControl]="nameFormControl" [errorStateMatcher]="matcher" name="pipelineName">
+      <mat-error *ngIf="nameFormControl.hasError('minlength') && !nameFormControl.hasError('required')">
+        The name must be longer than 3 characters
+      </mat-error>
+      <mat-error *ngIf="nameFormControl.hasError('required')">
+        A name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <a mat-button (click)="dialogRef.close()">Cancel</a>
+  <a mat-button (click)="saveClicked()" [disabled]="!nameFormControl.valid">Save</a>
+</div>

@@ -4,9 +4,10 @@
 import cv2
 import librosa
 import numpy as np
-from typing import Optional
 from . import PluginParameter
+from .exceptions import PluginError
 from collections import OrderedDict
+from typing import Optional, Union, Iterable
 from dataset_explorer.io import DataFile, FileType
 
 
@@ -15,16 +16,20 @@ class BasePlugin(object):
     Base class for plugins.
     """
 
-    def __init__(self, name: str, inType: FileType, outType: FileType, icon: Optional[str] = 'settings', outExtension: Optional[str] = ''):
+    def __init__(self, name: str,
+                 inType: Union[FileType, Iterable[FileType]],
+                 outType: Union[FileType, Iterable[FileType]],
+                 icon: Optional[str] = 'settings',
+                 outExtension: Optional[Union[str, Iterable[str]]] = None):
         """
         Creates a BasePlugin instance.
 
         Args:
             name: The name is the plugin as it will be displayed within the web interface
-            inType: The input type of the plugin
-            outType: The output type of the plugin
+            inType: The input type(s) of the plugin
+            outType: The output type(s) of the plugin
             icon: The name of the icon, must be one of the Angular Material Icon list
-            outExtension: If specified, overrides the default file extension for the provided output file
+            outExtension: If specified, overrides the default file extension(s) for the provided output file(s)
 
         Note:
             Default file extensions for each type are:
@@ -36,14 +41,19 @@ class BasePlugin(object):
             - Misc: _no extension_
         """
         self.name = name
-        self.inType = inType
-        self.outType = outType
+        self.inType = [inType] if isinstance(inType, FileType) else inType
+        self.outType = [outType] if isinstance(outType, FileType) else outType
         self.parameters = self._retrieveParameters(self.__class__, list())
         self.icon = icon
-        if outExtension:
-            self.outExtension = f".{outExtension.replace('.', '')}"
+        if isinstance(outExtension, str):
+            outExtension = [outExtension]
+        if outExtension is not None:
+            self.outExtension = [f".{ext.replace('.', '')}" for ext in outExtension]
         else:
-            self.outExtension = FileType.getDefaultExtension(self.outType)
+            self.outExtension = [FileType.getDefaultExtension(out) for out in self.outType]
+        if len(self.outType) != len(self.outExtension):
+            raise PluginError("Size mismatch: outType and outExtension iterables must have the same size")
+        self.nbOutputFiles = len(self.outType)
         self._loaded = False
 
     def _retrieveParameters(self, cls: type, parameters: list) -> OrderedDict:
@@ -109,7 +119,7 @@ class BasePlugin(object):
         parametersCopy["__plugin"] = self.name
         return hash(frozenset(parametersCopy.items()))
 
-    def __call__(self, inFilename: str, outFilename: str):
+    def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
         """
         Internal call of the plugin, loads the plugin if necessary and calls the `process` method.
 
@@ -128,7 +138,7 @@ class BasePlugin(object):
         """
         pass
 
-    def process(self, inFilename: str, outFilename: str):
+    def process(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
         """
         The main entrypoint of plugins, must be overriden in child class.
         The processed file must be saved at the path pointed by the argument `outFilename`.
@@ -149,8 +159,8 @@ class BasePlugin(object):
         return {
             "className": self.__class__.__name__,
             "name": self.name,
-            "inType": self.inType.value,
-            "outType": self.outType.value,
+            "inType": [inType.value for inType in self.inType],
+            "outType": [outType.value for outType in self.outType],
             "parameters": [parameter.toJson(name) for name, parameter in self.parameters.items()],
             "icon": self.icon
         }
@@ -165,7 +175,7 @@ class AudioPlugin(BasePlugin):
     """PluginParameter instance holding the sample rate at which the audio file must be loaded,
     the original sample rate is used if set to 0"""
 
-    def __init__(self, name: str, outType: FileType, icon: Optional[str] = 'settings', outExtension: Optional[str] = ''):
+    def __init__(self, name: str, outType: Union[FileType, Iterable[FileType]], icon: Optional[str] = 'settings', outExtension: Optional[Union[str, Iterable[str]]] = None):
         """
         Creates a AudioPlugin instance.
 
@@ -186,7 +196,7 @@ class AudioPlugin(BasePlugin):
         """
         super(AudioPlugin, self).__init__(name, FileType.AUDIO, outType, icon, outExtension)
 
-    def __call__(self, inFilename: str, outFilename: str):
+    def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
         """
         Internal call of the plugin, loads the plugin if necessary, then loads the input audio file and calls the
         `process` method.
@@ -202,7 +212,7 @@ class AudioPlugin(BasePlugin):
         data, self.sr.value = librosa.load(inFilename, sr=loadSr)
         self.process(data, outFilename)
 
-    def process(self, data: np.ndarray, outFilename: str):
+    def process(self, data: np.ndarray, outFilename: Union[str, Iterable[str]]):
         """
         The main entrypoint of audio plugins, must be overriden in child class.
         The processed file must be saved at the path pointed by the argument `outFilename`.
@@ -219,7 +229,7 @@ class ImagePlugin(BasePlugin):
     Convenience base class for plugins having `image` as input type.
     """
 
-    def __init__(self, name: str, outType: FileType, icon: Optional[str] = 'settings', outExtension: Optional[str] = ''):
+    def __init__(self, name: str, outType: Union[FileType, Iterable[FileType]], icon: Optional[str] = 'settings', outExtension: Optional[Union[str, Iterable[str]]] = None):
         """
         Creates a ImagePlugin instance.
 
@@ -240,7 +250,7 @@ class ImagePlugin(BasePlugin):
         """
         super(ImagePlugin, self).__init__(name, FileType.IMAGE, outType, icon, outExtension)
 
-    def __call__(self, inFilename, outFilename):
+    def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
         """
         Internal call of the plugin, loads the plugin if necessary, then loads the input image file and calls the
         `process` method.
@@ -255,7 +265,7 @@ class ImagePlugin(BasePlugin):
         data = cv2.imread(inFilename)
         self.process(data, outFilename)
 
-    def process(self, data: np.ndarray, outFilename):
+    def process(self, data: np.ndarray, outFilename: Union[str, Iterable[str]]):
         """
         The main entrypoint of image plugins, must be overriden in child class.
         The processed file must be saved at the path pointed by the argument `outFilename`.

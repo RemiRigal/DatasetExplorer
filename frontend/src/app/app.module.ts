@@ -42,6 +42,12 @@ import {ToolsParametersComponent} from './tools-parameters/tools-parameters.comp
 import {ProcessorToolsOverlayComponent} from './processor-tools-overlay/processor-tools-overlay.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {ProcessorToolsOverlayService} from './processor-tools-overlay/processor-tools-overlay.service';
+import {ReteModule} from 'rete-angular-render-plugin';
+import {PipelinesComponent} from './pipelines/pipelines.component';
+import {CommonModule} from '@angular/common';
+import {PipelinesEditorModule} from './pipelines-editor/pipelines-editor.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -57,37 +63,43 @@ import {ProcessorToolsOverlayService} from './processor-tools-overlay/processor-
     ProcessorInfoSidebarComponent,
     ToolsComponent,
     ToolsParametersComponent,
-    ProcessorToolsOverlayComponent
+    ProcessorToolsOverlayComponent,
+    PipelinesComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    MatCardModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatListModule,
-    MatDialogModule,
-    FlexLayoutModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    FormsModule,
-    MatSliderModule,
-    MatRadioModule,
-    VirtualScrollerModule,
-    MatTabsModule,
-    MatExpansionModule,
-    MatCheckboxModule,
-    OverlayModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        MatCardModule,
+        MatButtonModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatGridListModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatDividerModule,
+        MatListModule,
+        MatDialogModule,
+        FlexLayoutModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        FormsModule,
+        MatSliderModule,
+        MatRadioModule,
+        VirtualScrollerModule,
+        MatTabsModule,
+        MatExpansionModule,
+        MatCheckboxModule,
+        OverlayModule,
+        ReteModule,
+        CommonModule,
+        PipelinesEditorModule,
+        MatTooltipModule,
+        MatBadgeModule
+    ],
   providers: [
     RestService,
     {

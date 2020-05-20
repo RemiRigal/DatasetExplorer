@@ -10,11 +10,13 @@ export class ProcessorToolsOverlayService {
 
   constructor(private injector: Injector, private overlay: Overlay) { }
 
-  open(elementRef: ElementRef, plugin: DataPlugin): ProcessorToolsOverlayRef {
+  open(elementRef: ElementRef, plugin: DataPlugin, saveParams = false, selectText = 'Ok'): ProcessorToolsOverlayRef {
     const overlayRef = this.createOverlay(elementRef);
     const toolsOverlayRef = new ProcessorToolsOverlayRef(overlayRef);
     const injector = this.createInjector(toolsOverlayRef, plugin);
     toolsOverlayRef.componentInstance = this.attachDialogContainer(overlayRef, injector);
+    toolsOverlayRef.componentInstance.saveParams = saveParams;
+    toolsOverlayRef.componentInstance.selectText = selectText;
     overlayRef.backdropClick().subscribe(_ => toolsOverlayRef.close());
     return toolsOverlayRef;
   }

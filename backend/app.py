@@ -1,9 +1,10 @@
 # coding: utf-8
 
 from flask_cors import CORS
-from dataset_explorer.app import Dataset
+from flask_restful import Api
 from dataset_explorer.plugins import PluginManager
 from dataset_explorer.utils import getDatasetDirectory
+from dataset_explorer.app import Dataset, PipelineResource
 from flask import Flask, request, send_from_directory, abort, jsonify
 
 
@@ -12,7 +13,8 @@ pluginManager = PluginManager()
 dataset = Dataset()
 
 app = Flask(__name__, static_url_path="")
-CORS(app)
+cors = CORS(app)
+api = Api(app)
 
 
 ####################################### Static Files #######################################
@@ -53,6 +55,11 @@ def applyPlugin(pluginName, filename):
         params = request.json or dict()
         return pluginManager.applyPlugin(pluginName, dataFile, params).toJson()
     return abort(404)
+
+
+####################################### Pipelines #######################################
+api.add_resource(PipelineResource, "/pipelines", endpoint="pipelines")
+api.add_resource(PipelineResource, "/pipelines/<string:name>", endpoint="pipeline")
 
 
 if __name__ == "__main__":

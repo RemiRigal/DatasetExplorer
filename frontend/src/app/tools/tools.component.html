@@ -3,7 +3,7 @@
 
     <ng-template matTabLabel>
       <mat-icon class="tab-icon">{{getTypeIcon(inType)}}</mat-icon>
-      {{inType}}
+      {{inType.slice(0, 1).toUpperCase() + inType.slice(1)}}
     </ng-template>
 
     <mat-accordion>
@@ -13,15 +13,15 @@
             {{plugin.name}}
           </mat-panel-title>
           <mat-panel-description>
-            <mat-icon class="description-icon">{{getTypeIcon(plugin.inType)}}</mat-icon>
+            <mat-icon class="description-icon" *ngFor="let inType of plugin.inType">{{getTypeIcon(inType)}}</mat-icon>
             <mat-icon class="description-icon">keyboard_arrow_right</mat-icon>
-            <mat-icon class="description-icon">{{getTypeIcon(plugin.outType)}}</mat-icon>
+            <mat-icon class="description-icon" *ngFor="let outType of plugin.outType">{{getTypeIcon(outType)}}</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
         <ng-template matExpansionPanelContent>
           <div class="plugin-panel-content">
-            <app-tools-parameters [plugin]="plugin" [params]="params"></app-tools-parameters>
+            <app-tools-parameters [plugin]="plugin" [useLocalStorage]="true"></app-tools-parameters>
           </div>
         </ng-template>
       </mat-expansion-panel>

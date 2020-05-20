@@ -8,14 +8,13 @@ import tempfile
 import importlib
 import importlib.util
 from pkgutil import walk_packages
-
 from dataset_explorer.io import DataFile, FileType
-from dataset_explorer.utils import getPluginsPath
-from dataset_explorer.plugins import BasePlugin, AudioPlugin, ImagePlugin
-from dataset_explorer.plugins.exceptions import ProcessError, OutputFileNotFound, InstantiationError
+from dataset_explorer.utils import getPluginsPath, Singleton
+from . import BasePlugin, AudioPlugin, ImagePlugin
+from .exceptions import ProcessError, OutputFileNotFound, InstantiationError
 
 
-class PluginManager(object):
+class PluginManager(object, metaclass=Singleton):
 
     pluginDirectory = os.path.expanduser("~/.DatasetExplorer/plugins")
     baseClasses = [BasePlugin, AudioPlugin, ImagePlugin]
