@@ -8,7 +8,7 @@ from . import PluginParameter
 from .exceptions import PluginError
 from collections import OrderedDict
 from typing import Optional, Union, Iterable
-from dataset_explorer.io import DataFile, FileType
+from dataset_explorer.io import DataFile, FileType, FileReader, FileWriter
 
 
 class BasePlugin(object):
@@ -55,6 +55,8 @@ class BasePlugin(object):
             raise PluginError("Size mismatch: outType and outExtension iterables must have the same size")
         self.nbOutputFiles = len(self.outType)
         self._loaded = False
+        self._fileReader = FileReader()
+        self._fileWriter = FileWriter()
 
     def _retrieveParameters(self, cls: type, parameters: list) -> OrderedDict:
         """
@@ -119,7 +121,7 @@ class BasePlugin(object):
         parametersCopy["__plugin"] = self.name
         return hash(frozenset(parametersCopy.items()))
 
-    def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
+    def __call__(self, inFilename: Union[DataFile, Iterable[DataFile]], outFilename: Union[DataFile, Iterable[DataFile]]):
         """
         Internal call of the plugin, loads the plugin if necessary and calls the `process` method.
 
@@ -130,7 +132,19 @@ class BasePlugin(object):
         if not self._loaded:
             self.load()
             self._loaded = True
-        self.process(inFilename, outFilename)
+        inData = self._fileReader.read(inFilename)
+        outData = self.process(inData)
+        self._fileWriter.write(outFilename, outData)
+
+    def setFileReader(self, fileReader: FileReader):
+        if not isinstance(fileReader, FileReader):
+            raise PluginError("Bad FileReader: must be an instance of the FileReader class or any of its child class")
+        self._fileReader = fileReader
+
+    def setFileWriter(self, fileWriter: FileWriter):
+        if not isinstance(fileWriter, FileWriter):
+            raise PluginError("Bad FileWriter: must be an instance of the FileWriter class or any of its child class")
+        self._fileWriter = fileWriter
 
     def load(self):
         """
@@ -138,14 +152,16 @@ class BasePlugin(object):
         """
         pass
 
-    def process(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
+    def process(self, data: Union[np.ndarray, Iterable[np.ndarray]]) -> Union[np.ndarray, Iterable[np.ndarray]]:
         """
         The main entrypoint of plugins, must be overriden in child class.
         The processed file must be saved at the path pointed by the argument `outFilename`.
 
         Args:
-            inFilename: The path of the file to be processed
-            outFilename: The path to which the processed file must be written
+            data: The data to process
+
+        Returns
+            The processed data
         """
         raise NotImplementedError
 

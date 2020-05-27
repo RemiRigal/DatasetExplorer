@@ -1,0 +1,11 @@
+<mat-toolbar class="overlay-header" color="accent">
+  <span>{{plugin.name}}</span>
+</mat-toolbar>
+
+<div class="parameters-container">
+  <app-tools-parameters [plugin]="plugin" [localStorageProfile]="localStorageProfile"></app-tools-parameters>
+</div>
+
+<div class="row button-container">
+  <a mat-button (click)="applyPlugin()">{{selectText}}</a>
+</div>

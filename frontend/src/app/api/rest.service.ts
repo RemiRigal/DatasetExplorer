@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {DataFile} from '../classes/DataFile';
-import {DataPlugin} from '../classes/DataPlugin';
+import {DataFile} from '../scripts/classes/DataFile';
+import {DataPlugin} from '../scripts/classes/DataPlugin';
 import {environment} from '../../environments/environment';
-import {Pipeline} from '../classes/Pipeline';
+import {Flow} from '../scripts/classes/Flow';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class RestService {
 
   dataFilesUrl = 'datafiles';
   pluginsUrl = 'plugins';
-  pipelinesUrl = 'pipelines';
+  flowsUrl = 'flows';
 
   public static getStaticFileUrl(url) {
     return `${environment.apiUrl}${url}`;
@@ -36,19 +36,19 @@ export class RestService {
     return this.http.post<DataFile>(`${this.pluginsUrl}/${pluginName}/${filename}`, params);
   }
 
-  getPipelines() {
-    return this.http.get<Pipeline[]>(this.pipelinesUrl);
+  getFlows() {
+    return this.http.get<Flow[]>(this.flowsUrl);
   }
 
-  getPipeline(name: string) {
-    return this.http.get<Pipeline>(`${this.pipelinesUrl}/${name}`);
+  getFlow(name: string) {
+    return this.http.get<Flow>(`${this.flowsUrl}/${name}`);
   }
 
-  deletePipeline(name: string) {
-    return this.http.delete<Pipeline>(`${this.pipelinesUrl}/${name}`);
+  deleteFlow(name: string) {
+    return this.http.delete<Flow>(`${this.flowsUrl}/${name}`);
   }
 
-  createPipeline(name: string, diagram: object) {
-    return this.http.put(`${this.pipelinesUrl}/${name}`, diagram);
+  createFlow(name: string, diagram: object) {
+    return this.http.put(`${this.flowsUrl}/${name}`, diagram);
   }
 }

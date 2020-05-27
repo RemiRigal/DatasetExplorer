@@ -62,7 +62,7 @@ The app is available at http://127.0.0.1:4200.
 
 ## Write custom plugins/tools
 
-Dataset Explorer allows you to write custom Python tools so that you can instantly test your own processing pipeline on your data. To do so you will need to create a class that inherits the `BasePlugin` class, the simplest plugin looks like this:
+Dataset Explorer allows you to write custom Python tools so that you can instantly test your own processing flow on your data. To do so you will need to create a class that inherits the `BasePlugin` class, the simplest plugin looks like this:
 ```python
 # my_custom_plugin.py
 import cv2

@@ -1,2 +1,2 @@
 from .dataset import Dataset
-from .resources import PipelineResource
+from .resources import FlowResource

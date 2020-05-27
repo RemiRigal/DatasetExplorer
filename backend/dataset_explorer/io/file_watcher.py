@@ -40,7 +40,3 @@ class FileWatcher(object):
 
     def watch(self, path):
         self.watchManager.add_watch(path, self.eventHandler.mask)
-
-
-if __name__ == "__main__":
-    pass

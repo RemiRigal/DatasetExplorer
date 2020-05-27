@@ -1,0 +1,25 @@
+<mat-sidenav-container class="processor-container">
+
+  <mat-sidenav opened mode="side" style="width: 250px">
+    <app-tools-sidebar *ngIf="file"
+                       [dataFileType]="file.type"
+                       [localStorageProfile]="LocalStorageProfile.LoadAndSave"
+                       [selectText]="'Apply'"
+                       (dataPluginClick)="onProcess($event)">
+    </app-tools-sidebar>
+  </mat-sidenav>
+<!--  <mat-sidenav opened mode="side" position="end" style="width: 250px">-->
+<!--    <app-processor-info-sidebar *ngIf="file"></app-processor-info-sidebar>-->
+<!--  </mat-sidenav>-->
+
+  <mat-sidenav-content>
+    <div class="datafile-container">
+      <div *ngFor="let processedFile of processed" [style.width]="'calc(' + cardWidth + '% - 14px)'" class="datafile-grid">
+        <app-datafile-card [file]="processedFile" [cardHeight]="cardHeight" [cardWidth]="cardWidth" [waveSurferBarWidth]="1"></app-datafile-card>
+      </div>
+    </div>
+
+    <app-footer [fileCount]="1 + processed.length" [left]="250" [(height)]="cardHeight" [(width)]="cardWidth"></app-footer>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

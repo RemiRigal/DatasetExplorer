@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_restful import Api
 from dataset_explorer.plugins import PluginManager
 from dataset_explorer.utils import getDatasetDirectory
-from dataset_explorer.app import Dataset, PipelineResource
+from dataset_explorer.app import Dataset, FlowResource
 from flask import Flask, request, send_from_directory, abort, jsonify
 
 
@@ -57,9 +57,9 @@ def applyPlugin(pluginName, filename):
     return abort(404)
 
 
-####################################### Pipelines #######################################
-api.add_resource(PipelineResource, "/pipelines", endpoint="pipelines")
-api.add_resource(PipelineResource, "/pipelines/<string:name>", endpoint="pipeline")
+####################################### Flows #######################################
+api.add_resource(FlowResource, "/flows", endpoint="flows")
+api.add_resource(FlowResource, "/flows/<string:name>", endpoint="flow")
 
 
 if __name__ == "__main__":
