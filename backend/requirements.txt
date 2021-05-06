@@ -1,7 +1,7 @@
 click==7.1.1
 dlib==19.19.0
 Flask==1.1.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 librosa==0.7.2
 matplotlib==3.2.1
 numpy==1.18.2
