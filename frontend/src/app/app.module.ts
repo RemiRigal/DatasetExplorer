@@ -10,10 +10,13 @@ import {AppBrowserModule} from './pages/browser/browser.module';
 import {AppFlowsModule} from './pages/flows/flows.module';
 import {AppSharedModule} from './shared/shared.module';
 import {AppDirectivesModule} from './directives/directives.module';
+import {AppTasksModule} from './pages/tasks/tasks.module';
+import { TasksComponent } from './pages/tasks/tasks/tasks.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TasksComponent
   ],
   imports: [
     HttpClientModule,
@@ -23,7 +26,8 @@ import {AppDirectivesModule} from './directives/directives.module';
     AppBrowserModule,
     AppFlowsModule,
     AppSharedModule,
-    AppDirectivesModule
+    AppDirectivesModule,
+    AppTasksModule
   ],
   providers: [
     RestService,

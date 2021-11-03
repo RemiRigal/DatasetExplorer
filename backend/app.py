@@ -6,6 +6,7 @@ from dataset_explorer.plugins import PluginManager
 from dataset_explorer.utils import getDatasetDirectory
 from dataset_explorer.app import Dataset, FlowResource
 from flask import Flask, request, send_from_directory, abort, jsonify
+from flask_sse import sse
 
 
 root = getDatasetDirectory()
@@ -15,6 +16,8 @@ dataset = Dataset()
 app = Flask(__name__, static_url_path="")
 cors = CORS(app)
 api = Api(app)
+app.config["REDIS_URL"] = "redis://localhost"
+app.register_blueprint(sse, url_prefix='/tasks_stream')
 
 
 ####################################### Static Files #######################################
@@ -46,6 +49,9 @@ def getDataFile(filename):
 
 @app.route("/plugins", methods=["GET"])
 def getPlugins():
+    sse.publish({
+        "message": "Plugins queried"
+    }, type="greeting")
     return jsonify(pluginManager.getAvailablePlugins())
 
 @app.route("/plugins/<string:pluginName>/<path:filename>", methods=["POST"])

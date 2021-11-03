@@ -23,3 +23,16 @@ class FlowResource(Resource):
     def delete(self, name: str):
         flowManager.deleteFlow(name)
         return '', 204
+
+
+class TaskResource(Resource):
+
+    def get(self, taskId: int = None):
+        return ''
+
+    def put(self, data):
+        return '', 201
+
+    def delete(self, taskId: int = None):
+        return '', 204
+

@@ -6,21 +6,22 @@ import numpy as np
 from scipy.signal import stft
 from matplotlib.figure import Figure
 from dataset_explorer.io import FileType
-from dataset_explorer.plugins import AudioPlugin, PluginParameter
+from dataset_explorer.plugins import BasePlugin, PluginParameter
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 
-class STFTPlugin(AudioPlugin):
+class STFTPlugin(BasePlugin):
 
+    sr = PluginParameter("Sample rate", 0)
     nfft = PluginParameter("nfft", 2048)
     segmentLengthMs = PluginParameter("Segment Length (ms)", 25)
     overlapMs = PluginParameter("Segment Overlap (ms)", 15)
     powerLaw = PluginParameter("Power Law", 0.3)
 
     def __init__(self):
-        super(STFTPlugin, self).__init__("STFT", FileType.IMAGE, icon="bar_chart", outExtension="png")
+        super(STFTPlugin, self).__init__("STFT", FileType.AUDIO, FileType.IMAGE, icon="bar_chart", outExtension="png")
 
-    def process(self, data, outFilename):
+    def process(self, data):
         nfft = self.nfft.value
         nperseg = int(self.segmentLengthMs.value * self.sr.value / 1000.0)
         noverlap = int(self.overlapMs.value * self.sr.value / 1000.0)
@@ -32,4 +33,4 @@ class STFTPlugin(AudioPlugin):
         canvas.draw()
         width, height = figure.get_size_inches() * figure.get_dpi()
         image = np.frombuffer(canvas.tostring_rgb(), dtype="uint8").reshape(int(height), int(width), 3)
-        cv2.imwrite(outFilename, image[:, :, ::-1])
+        return image[:, :, ::-1]

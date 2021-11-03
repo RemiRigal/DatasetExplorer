@@ -11,6 +11,19 @@ from typing import Optional, Union, Iterable
 from dataset_explorer.io import DataFile, FileType, FileReader, FileWriter
 
 
+### Decorators
+
+def loadPluginBefore(func):
+    def loadPlugin(self, *args, **kwargs):
+        if not self._loaded:
+            self.load()
+            self._loaded = True
+        func(*args, **kwargs)
+    return loadPlugin
+
+
+### BasePlugin class
+
 class BasePlugin(object):
     """
     Base class for plugins.
@@ -121,6 +134,7 @@ class BasePlugin(object):
         parametersCopy["__plugin"] = self.name
         return hash(frozenset(parametersCopy.items()))
 
+    @loadPluginBefore
     def __call__(self, inFilename: Union[DataFile, Iterable[DataFile]], outFilename: Union[DataFile, Iterable[DataFile]]):
         """
         Internal call of the plugin, loads the plugin if necessary and calls the `process` method.
@@ -129,9 +143,6 @@ class BasePlugin(object):
             inFilename: The path of the file to be processed
             outFilename: The path to which the processed file must be written
         """
-        if not self._loaded:
-            self.load()
-            self._loaded = True
         inData = self._fileReader.read(inFilename)
         outData = self.process(inData)
         self._fileWriter.write(outFilename, outData)
@@ -182,112 +193,112 @@ class BasePlugin(object):
         }
 
 
-class AudioPlugin(BasePlugin):
-    """
-    Convenience base class for plugins having `audio` as input type.
-    """
-
-    sr = PluginParameter("Sample rate", 0)
-    """PluginParameter instance holding the sample rate at which the audio file must be loaded,
-    the original sample rate is used if set to 0"""
-
-    def __init__(self, name: str, outType: Union[FileType, Iterable[FileType]], icon: Optional[str] = 'settings', outExtension: Optional[Union[str, Iterable[str]]] = None):
-        """
-        Creates a AudioPlugin instance.
-
-        Args:
-            name: The name is the plugin as it will be displayed within the web interface
-            outType: The output type of the plugin
-            icon: The name of the icon, must be one of the Angular Material Icon list
-            outExtension: If specified, overrides the default file extension for the provided output file
-
-        Note:
-            Default file extensions for each type are:
-
-            - Image: .png
-            - Audio: .wav
-            - Video: .mp4
-            - Text: .txt
-            - Misc: _no extension_
-        """
-        super(AudioPlugin, self).__init__(name, FileType.AUDIO, outType, icon, outExtension)
-
-    def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
-        """
-        Internal call of the plugin, loads the plugin if necessary, then loads the input audio file and calls the
-        `process` method.
-
-        Args:
-            inFilename: The path of the file to be processed
-            outFilename: The path to which the processed file must be written
-        """
-        if not self._loaded:
-            self.load()
-            self._loaded = True
-        loadSr = self.sr.value if self.sr.value else None
-        data, self.sr.value = librosa.load(inFilename, sr=loadSr)
-        self.process(data, outFilename)
-
-    def process(self, data: np.ndarray, outFilename: Union[str, Iterable[str]]):
-        """
-        The main entrypoint of audio plugins, must be overriden in child class.
-        The processed file must be saved at the path pointed by the argument `outFilename`.
-
-        Args:
-            data: The audio signal as a numpy ndarray
-            outFilename: The path to which the processed file must be written
-        """
-        raise NotImplementedError
-
-
-class ImagePlugin(BasePlugin):
-    """
-    Convenience base class for plugins having `image` as input type.
-    """
-
-    def __init__(self, name: str, outType: Union[FileType, Iterable[FileType]], icon: Optional[str] = 'settings', outExtension: Optional[Union[str, Iterable[str]]] = None):
-        """
-        Creates a ImagePlugin instance.
-
-        Args:
-            name: The name is the plugin as it will be displayed within the web interface
-            outType: The output type of the plugin
-            icon: The name of the icon, must be one of the Angular Material Icon list
-            outExtension: If specified, overrides the default file extension for the provided output file
-
-        Note:
-            Default file extensions for each type are:
-
-            - Image: .png
-            - Audio: .wav
-            - Video: .mp4
-            - Text: .txt
-            - Misc: _no extension_
-        """
-        super(ImagePlugin, self).__init__(name, FileType.IMAGE, outType, icon, outExtension)
-
-    def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
-        """
-        Internal call of the plugin, loads the plugin if necessary, then loads the input image file and calls the
-        `process` method.
-
-        Args:
-            inFilename: The path of the file to be processed
-            outFilename: The path to which the processed file must be written
-        """
-        if not self._loaded:
-            self.load()
-            self._loaded = True
-        data = cv2.imread(inFilename)
-        self.process(data, outFilename)
-
-    def process(self, data: np.ndarray, outFilename: Union[str, Iterable[str]]):
-        """
-        The main entrypoint of image plugins, must be overriden in child class.
-        The processed file must be saved at the path pointed by the argument `outFilename`.
-
-        Args:
-            data: The image as a numpy ndarray
-            outFilename: The path to which the processed file must be written
-        """
-        raise NotImplementedError
+# class AudioPlugin(BasePlugin):
+#     """
+#     Convenience base class for plugins having `audio` as input type.
+#     """
+#
+#     sr = PluginParameter("Sample rate", 0)
+#     """PluginParameter instance holding the sample rate at which the audio file must be loaded,
+#     the original sample rate is used if set to 0"""
+#
+#     def __init__(self, name: str, outType: Union[FileType, Iterable[FileType]], icon: Optional[str] = 'settings', outExtension: Optional[Union[str, Iterable[str]]] = None):
+#         """
+#         Creates a AudioPlugin instance.
+#
+#         Args:
+#             name: The name is the plugin as it will be displayed within the web interface
+#             outType: The output type of the plugin
+#             icon: The name of the icon, must be one of the Angular Material Icon list
+#             outExtension: If specified, overrides the default file extension for the provided output file
+#
+#         Note:
+#             Default file extensions for each type are:
+#
+#             - Image: .png
+#             - Audio: .wav
+#             - Video: .mp4
+#             - Text: .txt
+#             - Misc: _no extension_
+#         """
+#         super(AudioPlugin, self).__init__(name, FileType.AUDIO, outType, icon, outExtension)
+#
+#     def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
+#         """
+#         Internal call of the plugin, loads the plugin if necessary, then loads the input audio file and calls the
+#         `process` method.
+#
+#         Args:
+#             inFilename: The path of the file to be processed
+#             outFilename: The path to which the processed file must be written
+#         """
+#         if not self._loaded:
+#             self.load()
+#             self._loaded = True
+#         loadSr = self.sr.value if self.sr.value else None
+#         data, self.sr.value = librosa.load(inFilename, sr=loadSr)
+#         self.process(data, outFilename)
+#
+#     def process(self, data: np.ndarray, outFilename: Union[str, Iterable[str]]):
+#         """
+#         The main entrypoint of audio plugins, must be overriden in child class.
+#         The processed file must be saved at the path pointed by the argument `outFilename`.
+#
+#         Args:
+#             data: The audio signal as a numpy ndarray
+#             outFilename: The path to which the processed file must be written
+#         """
+#         raise NotImplementedError
+#
+#
+# class ImagePlugin(BasePlugin):
+#     """
+#     Convenience base class for plugins having `image` as input type.
+#     """
+#
+#     def __init__(self, name: str, outType: Union[FileType, Iterable[FileType]], icon: Optional[str] = 'settings', outExtension: Optional[Union[str, Iterable[str]]] = None):
+#         """
+#         Creates a ImagePlugin instance.
+#
+#         Args:
+#             name: The name is the plugin as it will be displayed within the web interface
+#             outType: The output type of the plugin
+#             icon: The name of the icon, must be one of the Angular Material Icon list
+#             outExtension: If specified, overrides the default file extension for the provided output file
+#
+#         Note:
+#             Default file extensions for each type are:
+#
+#             - Image: .png
+#             - Audio: .wav
+#             - Video: .mp4
+#             - Text: .txt
+#             - Misc: _no extension_
+#         """
+#         super(ImagePlugin, self).__init__(name, FileType.IMAGE, outType, icon, outExtension)
+#
+#     def __call__(self, inFilename: str, outFilename: Union[str, Iterable[str]]):
+#         """
+#         Internal call of the plugin, loads the plugin if necessary, then loads the input image file and calls the
+#         `process` method.
+#
+#         Args:
+#             inFilename: The path of the file to be processed
+#             outFilename: The path to which the processed file must be written
+#         """
+#         if not self._loaded:
+#             self.load()
+#             self._loaded = True
+#         data = cv2.imread(inFilename)
+#         self.process(data, outFilename)
+#
+#     def process(self, data: np.ndarray, outFilename: Union[str, Iterable[str]]):
+#         """
+#         The main entrypoint of image plugins, must be overriden in child class.
+#         The processed file must be saved at the path pointed by the argument `outFilename`.
+#
+#         Args:
+#             data: The image as a numpy ndarray
+#             outFilename: The path to which the processed file must be written
+#         """
+#         raise NotImplementedError

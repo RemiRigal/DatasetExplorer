@@ -53,10 +53,10 @@ Here is the above tool refactored to inherit from the `ImagePlugin` class.
 # my_custom_plugin.py
 import cv2
 from dataset_explorer.io import FileType
-from dataset_explorer.plugins import ImagePlugin
+from dataset_explorer.plugins import BasePlugin
 
 
-class MyCustomPlugin(ImagePlugin):
+class MyCustomPlugin(BasePlugin):
     """
     MyCustomPlugin inherits from the ImagePlugin class
     """

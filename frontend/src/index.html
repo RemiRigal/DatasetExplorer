@@ -10,6 +10,17 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+  <script>
+    var source = new EventSource('http://localhost:5000/tasks_stream');
+    source.addEventListener('greeting', function(event) {
+      var data = JSON.parse(event.data);
+      console.log('Message from server: ' + data.message);
+    }, false);
+    source.addEventListener('error', function(event) {
+      console.log('Failed to connect to event stream. Is Redis running?');
+    }, false);
+  </script>
   <app-root></app-root>
 </body>
 </html>
+

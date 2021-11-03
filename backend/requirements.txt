@@ -3,6 +3,7 @@ dlib==19.19.0
 Flask==1.1.1
 Flask-Cors==3.0.8
 Flask-RESTful==0.3.8
+flask-sse==0.2.1
 librosa==0.7.2
 matplotlib==3.2.1
 numpy==1.18.2
@@ -10,3 +11,5 @@ opencv-python==4.2.0.34
 scipy==1.4.1
 SoundFile==0.10.3.post1
 pyinotify==0.9.6
+gevent==20.5.1
+gunicorn==20.0.4

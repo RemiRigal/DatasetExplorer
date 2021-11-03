@@ -1,0 +1,114 @@
+{
+  "name": "Black & White",
+  "diagram": {
+    "id": "DatasetExplorer@0.0.0",
+    "nodes": {
+      "1": {
+        "id": 1,
+        "data": {},
+        "inputs": {},
+        "outputs": {
+          "image": {
+            "connections": [
+              {
+                "node": 2,
+                "input": "image-0",
+                "data": {}
+              }
+            ]
+          }
+        },
+        "position": [
+          0,
+          43
+        ],
+        "name": "Image Input"
+      },
+      "2": {
+        "id": 2,
+        "data": {
+          "plugin": {
+            "className": "BlackAndWhitePlugin",
+            "icon": "invert_colors",
+            "inType": [
+              "image"
+            ],
+            "name": "Black & White",
+            "outType": [
+              "image"
+            ],
+            "parameters": [
+              {
+                "attributeName": "binary",
+                "default": false,
+                "name": "Binary",
+                "type": "bool",
+                "value": true
+              },
+              {
+                "attributeName": "binaryThreshold",
+                "default": 0.5,
+                "name": "Binary Threshold",
+                "type": "float",
+                "value": 0.6
+              }
+            ]
+          },
+          "pluginName": "BlackAndWhitePlugin",
+          "params": {
+            "binary": false,
+            "binaryThreshold": 0.6
+          }
+        },
+        "inputs": {
+          "image-0": {
+            "connections": [
+              {
+                "node": 1,
+                "output": "image",
+                "data": {}
+              }
+            ]
+          }
+        },
+        "outputs": {
+          "image-0": {
+            "connections": [
+              {
+                "node": 3,
+                "input": "image",
+                "data": {}
+              }
+            ]
+          }
+        },
+        "position": [
+          250,
+          25
+        ],
+        "name": "Black & White"
+      },
+      "3": {
+        "id": 3,
+        "data": {},
+        "inputs": {
+          "image": {
+            "connections": [
+              {
+                "node": 2,
+                "output": "image-0",
+                "data": {}
+              }
+            ]
+          }
+        },
+        "outputs": {},
+        "position": [
+          500,
+          43
+        ],
+        "name": "Image Output"
+      }
+    }
+  }
+}

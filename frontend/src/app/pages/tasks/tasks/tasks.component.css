@@ -1,0 +1,5 @@
+.main-content {
+  height: calc(100vh - 64px);
+  width: 100vw;
+  justify-content: center;
+}

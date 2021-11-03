@@ -10,22 +10,29 @@ import importlib.util
 from pkgutil import walk_packages
 from dataset_explorer.io import DataFile, FileType
 from dataset_explorer.utils import getPluginsPath, Singleton
-from . import BasePlugin, AudioPlugin, ImagePlugin
+from . import BasePlugin
 from .exceptions import ProcessError, OutputFileNotFound, InstantiationError
 
 
 class PluginManager(object, metaclass=Singleton):
 
-    pluginDirectory = os.path.expanduser("~/.DatasetExplorer/plugins")
-    baseClasses = [BasePlugin, AudioPlugin, ImagePlugin]
+    userPluginDirectory = os.path.expanduser("~/.DatasetExplorer/plugins")
+    localPluginDirectory = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "plugins")
+    baseClasses = [BasePlugin]
 
     def __init__(self):
-        sys.path.append(self.pluginDirectory)
+        sys.path.append(self.userPluginDirectory)
+        sys.path.append(self.localPluginDirectory)
         self.plugins = self._discoverPlugins()
         self.staticDirectory = tempfile.mkdtemp()
         self.processedFiles = dict()
 
-    def applyPlugin(self, pluginName, dataFile, params):
+    def processData(self, pluginName, dataIn, params):
+        plugin = self.plugins[pluginName]
+        plugin.setParameterValues(params)
+        return plugin.process(dataIn)
+
+    def processFile(self, pluginName, dataFile, params):
         plugin = self.plugins[pluginName]
         fileHash = plugin.getFileHash(dataFile, params)
         if fileHash in self.processedFiles.keys():
@@ -54,11 +61,10 @@ class PluginManager(object, metaclass=Singleton):
 
     def _discoverPlugins(self):
         plugins = dict()
-        localPath = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         extraPaths = getPluginsPath()
         for path in extraPaths:
             sys.path.append(path)
-        for fileFinder, name, isPkg in walk_packages([localPath, self.pluginDirectory] + extraPaths):
+        for fileFinder, name, isPkg in walk_packages([self.localPluginDirectory, self.userPluginDirectory] + extraPaths):
             if isPkg:
                 continue
             module = importlib.import_module(name)

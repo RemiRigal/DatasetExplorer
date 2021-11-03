@@ -1,3 +1,3 @@
 from .parameters import PluginParameter
-from .base import BasePlugin, AudioPlugin, ImagePlugin
+from .base import BasePlugin
 from .manager import PluginManager

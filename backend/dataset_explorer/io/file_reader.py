@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import os
+import cv2
+import soundfile
 import numpy as np
 from typing import Union, Iterable
 from . import DataFile, FileType
@@ -15,9 +16,22 @@ class FileReader(object):
         return [self._readFile(df) for df in dataFile]
 
     def _readFile(self, dataFile: DataFile) -> np.ndarray:
-        pass
+        if dataFile.type == FileType.AUDIO:
+            return self._readAudioFile(dataFile)
+        if dataFile.type == FileType.Image:
+            return self._readImageFile(dataFile)
+        if dataFile.type == FileType.VIDEO:
+            return self._readVideoFile(dataFile)
+        return np.ndarray([])
 
+    @staticmethod
+    def _readAudioFile(dataFile: DataFile) -> np.ndarray:
+        return soundfile.read(dataFile.path)
 
-if __name__ == "__main__":
-    reader = FileReader()
-    reader.read("")
+    @staticmethod
+    def _readImageFile(dataFile: DataFile) -> np.ndarray:
+        return cv2.imread(dataFile.path)
+
+    @staticmethod
+    def _readVideoFile(dataFile: DataFile) -> np.ndarray:
+        raise NotImplementedError
