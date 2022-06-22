@@ -4,7 +4,7 @@ Flask==1.1.1
 Flask-Cors==3.0.9
 librosa==0.7.2
 matplotlib==3.2.1
-numpy==1.18.2
+numpy==1.22.0
 opencv-python==4.2.0.34
 scipy==1.4.1
 SoundFile==0.10.3.post1
