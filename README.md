@@ -38,7 +38,7 @@ volumes:
 
 #### Backend (Flask)
 
-The backend requires `Python 3.7`.
+The backend requires `Python 3.8`.
 ```shell script
 cd backend
 pip install -r requirements.txt
